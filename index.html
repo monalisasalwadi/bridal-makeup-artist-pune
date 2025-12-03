@@ -29,7 +29,7 @@ body{
 
 /* ---------------- HEADER ---------------- */
 header{
-  background: #000; 
+  background: linear-gradient(90deg,var(--accent-purple), #000000);
   padding:20px 15px 15px;
   display:grid;
   grid-template-columns: 1fr 1fr 1fr 1fr; 
@@ -175,34 +175,6 @@ header{
 .gallery-front{ z-index:22; }
 .gallery-back{ transform:rotateY(180deg); z-index:21; }
 
-.auto-video {
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:inherit;
-}
-
-.insta-embed {
-  width: 100%;
-  height: auto;
-  overflow: visible;
-  position: relative;
-}
-
-.instagram-media {
-  width: 100% !important;
-  min-width: 100% !important;
-  margin: 0 auto !important;
-  border-radius: var(--card-radius) !important;
-}
-
-.insta-box {
-  aspect-ratio: auto !important;
-  min-height: 400px; /* enough space for reel */
-}
-
 
 /* --------------- FOOTER ---------------- */
 footer{
@@ -347,32 +319,25 @@ footer{
       </div>
     </div>
 
-    <!-- 4th BOX → Instagram Reel Embed -->
-    <div class="gallery-box insta-box">
-      <div class="insta-embed">
-        <blockquote 
-          class="instagram-media" 
-          data-instgrm-permalink="https://www.instagram.com/reel/DQlP-0UiH3r/?utm_source=ig_embed&utm_campaign=loading"
-          data-instgrm-version="14"
-          style="background:#fff; border:0; margin:0; padding:0; width:100%;">
-        </blockquote>
-
+    <div class="gallery-box">
+      <div class="gallery-title">Western</div>
+      <div class="gallery-more">Click for more</div>
+      <img class="gallery-bg" id="bg4">
+      <div class="gallery-inner" id="g4">
+        <img class="gallery-face gallery-front">
+        <img class="gallery-face gallery-back">
       </div>
     </div>
 
-    <!-- 5th BOX → Instagram Reel Embed -->
-    <div class="gallery-box insta-box">
-      <div class="insta-embed">
-        <blockquote 
-          class="instagram-media" 
-          data-instgrm-permalink="https://www.instagram.com/reel/DDhlVFTPVDL/?utm_source=ig_embed&utm_campaign=loading"
-          data-instgrm-version="14"
-          style="background:#fff; border:0; margin:0; padding:0; width:100%;">
-        </blockquote>
-
+    <div class="gallery-box">
+      <div class="gallery-title">Portraits</div>
+      <div class="gallery-more">Click for more</div>
+      <img class="gallery-bg" id="bg5">
+      <div class="gallery-inner" id="g5">
+        <img class="gallery-face gallery-front">
+        <img class="gallery-face gallery-back">
       </div>
     </div>
-
 
   </div>
 </div>
@@ -403,12 +368,12 @@ footer{
   <div class="footer-card">
     <div class="footer-header">Happy Members</div>
     <div class="footer-content">
-      <p>• Video testimonials coming soon…</p>
-      <p>• Brides sharing their experiences</p>
-      <p>• Before–After transformations</p>
+      <div class="video-grid">
+        <video id="player1" muted playsinline autoplay></video>
+        <video id="player2" muted playsinline autoplay></video>
+      </div>
     </div>
   </div>
-
 
   <div class="footer-card">
     <div class="footer-header">Learn from Expert</div>
@@ -469,7 +434,9 @@ function setupGallery(galleryId, bgId, folderPath, fileList){
 const flip1 = setupGallery('g1','bg1',paths[0],folders.maharashtrian);
 const flip2 = setupGallery('g2','bg2',paths[1],folders.north);
 const flip3 = setupGallery('g3','bg3',paths[2],folders.south);
-const sequence = [flip1, flip3, flip2];
+const flip4 = setupGallery('g4','bg4',paths[3],folders.western);
+const flip5 = setupGallery('g5','bg5',paths[4],folders.portrait);
+const sequence = [flip1, flip3, flip2, flip5, flip4];
 let index = 0;
 function runSequence(){ 
   sequence[index](); 
@@ -488,12 +455,43 @@ document.querySelectorAll('.float-btn').forEach(btn => {
   btn.addEventListener('touchstart', () => handleHoverEffect(btn)); 
 });
 
+// --- VIDEO PLAYLIST ENGINE ---
 
+function setupVideoPlayer(videoElementId, fileList) {
+    const player = document.getElementById(videoElementId);
+    let index = 0;
+
+    player.muted = true;        // VERY IMPORTANT for autoplay
+    player.playsInline = true;  // required for iPhone
+    player.autoplay = true;
+
+    function playNextVideo() {
+        player.src = "videos/" + fileList[index];
+        player.load();
+
+        // Try autoplay safely
+        const playPromise = player.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                // If autoplay was blocked, try again after small delay
+                setTimeout(() => player.play(), 200);
+            });
+        }
+
+        index = (index + 1) % fileList.length;
+    }
+
+    // When video ends → pause → next
+    player.addEventListener("ended", () => {
+        setTimeout(playNextVideo, 2000);
+    });
+
+    playNextVideo();
+}
+
+setupVideoPlayer("player1", ["v1.mp4", "v2.mp4", "v3.mp4"]);
+setupVideoPlayer("player2", ["v4.mp4", "v5.mp4", "v6.mp4"]);
 </script>
-
-<!-- Instagram embed script -->
-<script async src="https://www.instagram.com/embed.js"></script>
-
 
 </body>
 </html>
