@@ -431,9 +431,7 @@ function setupGallery(galleryId, bgId, folderPath, fileList){
 const flip1 = setupGallery('g1','bg1',paths[0],folders.maharashtrian);
 const flip2 = setupGallery('g2','bg2',paths[1],folders.north);
 const flip3 = setupGallery('g3','bg3',paths[2],folders.south);
-const flip4 = setupGallery('g4','bg4',paths[3],folders.western);
-const flip5 = setupGallery('g5','bg5',paths[4],folders.portrait);
-const sequence = [flip1, flip3, flip2, flip5, flip4];
+const sequence = [flip1, flip3, flip2];
 let index = 0;
 function runSequence(){ 
   sequence[index](); 
