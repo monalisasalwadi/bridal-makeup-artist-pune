@@ -452,6 +452,34 @@ document.querySelectorAll('.float-btn').forEach(btn => {
   btn.addEventListener('touchstart', () => handleHoverEffect(btn)); 
 });
 
+// NEW AUTO-VIDEO GALLERY ENGINE (10 videos each player)
+function setupAutoGalleryVideo(videoId, prefix) {
+    const player = document.getElementById(videoId);
+    let index = 1;
+
+    function playNext() {
+        player.src = "videos/" + prefix + index + ".mp4";
+        player.load();
+
+        const promise = player.play();
+        if (promise) promise.catch(() => setTimeout(() => player.play(), 200));
+
+        index = (index % 10) + 1; // loops 1–10
+    }
+
+    player.addEventListener("ended", () => {
+        setTimeout(playNext, 1200);
+    });
+
+    playNext();
+}
+
+// Video set 1 = a1.mp4 to a10.mp4
+setupAutoGalleryVideo("autoVideo1", "a");
+
+// Video set 2 = b1.mp4 to b10.mp4
+setupAutoGalleryVideo("autoVideo2", "b");
+
 
 </script>
 
