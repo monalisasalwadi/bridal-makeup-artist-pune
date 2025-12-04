@@ -273,78 +273,80 @@ footer{
   z-index: 9999;
 }
 
-/* --- BUTTON BASE --- */
-/* BASE BUTTON */
+/* Base button */
 .float-btn {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
   color: #ffffff;
   padding: 12px 22px;
-  border-radius: 28px;
+  border-radius: 30px;
   font-weight: bold;
   font-family: 'Armata', sans-serif;
   font-size: 16px;
   cursor: pointer;
-  opacity: 0.95;
   white-space: nowrap;
+  opacity: 0.95;
   overflow: visible;
 }
 
-/* --- BULB RING BASE --- */
+/* --- TRUE CIRCULAR BULB RING --- */
 .float-btn::before,
 .float-btn::after {
   content: "";
   position: absolute;
-  inset: -12px;               /* distance of bulb ring from button */
+  inset: -12px;                  /* distance of bulb ring */
   border-radius: 40px;
   pointer-events: none;
   z-index: 1;
 
-  /* --- CIRCULAR BULBS --- */
-  background-image:
-    repeating-radial-gradient(
-      circle,
-      #ffd673 0 5px,           /* bulb radius (5px) */
-      transparent 5px 10px     /* spacing so bulbs touch */
+  /* Create circular dot pattern along the ring */
+  background:
+    conic-gradient(
+      from 0deg,
+      #ffd673 0deg 10deg,        /* bulb */
+      transparent 10deg 20deg    /* gap */
     );
-  background-size: 16px 16px;  /* tile size */
-  background-position: 0 0;
 
-  /* Punch a hole so bulbs stay OUTSIDE the button */
+  /* Repeat pattern many times around the ring */
+  mask:
+    radial-gradient(circle,
+      transparent 55%,           /* hole */
+      black 56%                  /* ring thickness */
+    );
   -webkit-mask:
-    radial-gradient(circle, transparent 0 60%, black 61%); /* 60% = hole size */
-          mask:
-    radial-gradient(circle, transparent 0 60%, black 61%);
+    radial-gradient(circle,
+      transparent 55%,
+      black 56%
+    );
 
   filter: brightness(0.4);
   opacity: 0.7;
-
-  transition: filter 0.15s linear, opacity 0.15s linear;
 }
 
-/* --- EVEN LAYER OFFSET (shift bulbs) --- */
+/* Odd bulbs rotate */
+.float-btn::before {
+  animation: spinOdd 1.2s linear infinite;
+}
+
+/* Even bulbs rotate opposite direction + delayed */
 .float-btn::after {
-  background-position: 8px 8px; /* half of tile → perfect even placement */
+  animation: spinEven 1.2s linear infinite;
+  animation-delay: 0.6s; /* half cycle → alternate */
 }
 
 /* --- ANIMATIONS --- */
-@keyframes bulbGlow {
-  0%   { filter: brightness(0.4); opacity: 0.6; }
-  45%  { filter: brightness(2);   opacity: 1;   }
-  55%  { filter: brightness(1.2); opacity: 0.85;}
-  100% { filter: brightness(0.4); opacity: 0.6; }
+
+@keyframes spinOdd {
+  0%   { filter: brightness(0.4); transform: rotate(0deg); }
+  40%  { filter: brightness(2);   }
+  100% { filter: brightness(0.4); transform: rotate(360deg); }
 }
 
-/* Odd bulbs glow first */
-.float-btn::before {
-  animation: bulbGlow 1.2s infinite ease-in-out;
-}
-
-/* Even bulbs glow next (delay = half cycle) */
-.float-btn::after {
-  animation: bulbGlow 1.2s infinite ease-in-out;
-  animation-delay: 0.6s;
+@keyframes spinEven {
+  0%   { filter: brightness(0.4); transform: rotate(0deg); }
+  40%  { filter: brightness(2);   }
+  100% { filter: brightness(0.4); transform: rotate(-360deg); }
 }
 
 /* Hover scaling (optional) */
