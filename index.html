@@ -290,56 +290,67 @@ footer{
   overflow: visible;
 }
 
-/* --- TRUE OUTLINE BULB EFFECT --- */
+/* --- Bulb ring around outline --- */
 .float-btn::before,
 .float-btn::after {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 6px; /* distance from border */
-  pointer-events: none;
+  top: -10px;
+  bottom: -10px;
+  left: -10px;
+  right: -10px;
 
-  /* circle dots around outline */
+  /* Match button radius + bulb distance */
+  border-radius: calc(30px + 10px);
+
+  pointer-events: none;
+  z-index: -1;
+
+  /* Bulbs layed out around edge */
   background:
-    repeating-conic-gradient(
-      from 0deg,
-      #ffd673 0deg 10deg,
-      transparent 10deg 20deg
+    conic-gradient(
+      #ffd673 0deg 12deg,
+      transparent 12deg 20deg
     );
 
-  /* hollow center → ring only */
-  -webkit-mask:
-    radial-gradient(closest-side, transparent 72%, black 73%);
+  /* create ring (punch hole in middle) */
   mask:
-    radial-gradient(closest-side, transparent 72%, black 73%);
+    radial-gradient(farthest-side,
+      transparent calc(100% - 6px),
+      black calc(100% - 4px)
+    );
+  -webkit-mask:
+    radial-gradient(farthest-side,
+      transparent calc(100% - 6px),
+      black calc(100% - 4px)
+    );
 
-  opacity: 0.7;
-  transition: filter .3s;
+  opacity: 0.9;
+  filter: brightness(0.4);
 }
 
-/* ODD bulbs glow first */
+/* Odd bulbs rotate clockwise */
 .float-btn::before {
-  animation: bulbsOdd 1.2s infinite linear;
+  animation: oddGlow 1.4s linear infinite;
 }
 
-/* EVEN bulbs glow next */
+/* Even bulbs rotate opposite + delay → alternating effect */
 .float-btn::after {
-  animation: bulbsEven 1.2s infinite linear;
-  animation-delay: 0.6s;
+  animation: evenGlow 1.4s linear infinite;
+  animation-delay: 0.7s;
 }
 
-/* Bulb animations */
-@keyframes bulbsOdd {
-  0%   { filter: brightness(0.5); }
+/* Animations */
+@keyframes oddGlow {
+  0%   { filter: brightness(0.4); transform: rotate(0deg); }
   40%  { filter: brightness(2); }
-  100% { filter: brightness(0.5); }
+  100% { filter: brightness(0.4); transform: rotate(360deg); }
 }
 
-@keyframes bulbsEven {
-  0%   { filter: brightness(0.5); }
+@keyframes evenGlow {
+  0%   { filter: brightness(0.4); transform: rotate(0deg); }
   40%  { filter: brightness(2); }
-  100% { filter: brightness(0.5); }
+  100% { filter: brightness(0.4); transform: rotate(-360deg); }
 }
 
 /* Hover scaling (optional) */
