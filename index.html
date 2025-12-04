@@ -274,12 +274,11 @@ footer{
 }
 
 .float-btn {
+  position: relative;
   background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
   color: #ffffff;
   padding: 12px 20px;
   border-radius: 25px;
-  border: 2px dotted #ffd673;  /* GOLDEN DOT OUTLINE */
-  border-width: 3px;  /* thicker dots */
   font-weight: bold;
   font-family: 'Armata', sans-serif;
   font-size: 16px;
@@ -287,7 +286,39 @@ footer{
   opacity: 0.80;
   transition: opacity 0.3s ease, transform 0.2s ease;
   white-space: nowrap;
+  z-index: 1;
 }
+
+/* GLOWING ANIMATED DOT BORDER */
+.float-btn::before {
+  content: "";
+  position: absolute;
+  inset: -4px;                /* distance of dots from button */
+  border-radius: 30px;        /* slightly bigger than button */
+  padding: 3px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #ffd673,
+      #ffd673 4px,
+      transparent 4px,
+      transparent 9px
+    );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: bulbGlow 1.2s infinite linear;
+}
+
+/* ANIMATION: BULBS TURN ON AND OFF */
+@keyframes bulbGlow {
+  0%   { filter: brightness(0.5) drop-shadow(0 0 3px #ffeb99); }
+  50%  { filter: brightness(1.8) drop-shadow(0 0 6px #ffe066); }
+  100% { filter: brightness(0.5) drop-shadow(0 0 3px #ffeb99); }
+}
+
 
 
 
