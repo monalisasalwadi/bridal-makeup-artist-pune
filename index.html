@@ -274,87 +274,85 @@ footer{
 }
 
 /* --- BUTTON BASE --- */
+/* BASE BUTTON */
 .float-btn {
   position: relative;
-  z-index: 2;                           /* keep label above the bulb layers */
+  z-index: 2;
   background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
   color: #ffffff;
-  padding: 12px 20px;
-  border-radius: 25px;
+  padding: 12px 22px;
+  border-radius: 28px;
   font-weight: bold;
   font-family: 'Armata', sans-serif;
   font-size: 16px;
   cursor: pointer;
   opacity: 0.95;
   white-space: nowrap;
-  overflow: visible;                    /* allow the bulb ring to sit outside */
+  overflow: visible;
 }
 
-/* ---------- BULB RING LAYERS ---------- */
-/* We'll use two layers ::before (odd bulbs) and ::after (even bulbs).
-   Each is a repeating stripe of gold. We then punch a hole for the button center using a mask,
-   so the bulbs sit only around the button (they don't cover text). */
-
+/* --- BULB RING BASE --- */
 .float-btn::before,
 .float-btn::after {
   content: "";
   position: absolute;
-  inset: -8px;                          /* distance of bulbs from button edge - adjust */
-  border-radius: 34px;                  /* slightly larger than button radius */
+  inset: -12px;               /* distance of bulb ring from button */
+  border-radius: 40px;
   pointer-events: none;
-  z-index: 1;                           /* behind the button text (button is z-index:2) */
+  z-index: 1;
 
-  /* bulb sizing - adjust these values to tune bulb width/height and spacing */
-  /* bulbWidth = 8px; tile = bulbWidth*2 = 16px so bulbs touch without gaps */
+  /* --- CIRCULAR BULBS --- */
   background-image:
-    repeating-linear-gradient(
-      90deg,
-      #ffd673 0,
-      #ffd673 8px,
-      transparent 8px,
-      transparent 16px
+    repeating-radial-gradient(
+      circle,
+      #ffd673 0 5px,           /* bulb radius (5px) */
+      transparent 5px 10px     /* spacing so bulbs touch */
     );
-  background-size: 16px 100%;
-  /* We don't want the stripe to cover the center - mask it out */
+  background-size: 16px 16px;  /* tile size */
+  background-position: 0 0;
+
+  /* Punch a hole so bulbs stay OUTSIDE the button */
   -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;          /* punch the hole (WebKit) */
-  mask-composite: exclude;              /* standard name for some browsers */
-  padding: 8px;                         /* the content-box size that will be removed (controls ring thickness) */
-  box-sizing: border-box;
-  filter: brightness(0.6);              /* base dim level for bulbs */
+    radial-gradient(circle, transparent 0 60%, black 61%); /* 60% = hole size */
+          mask:
+    radial-gradient(circle, transparent 0 60%, black 61%);
+
+  filter: brightness(0.4);
+  opacity: 0.7;
+
   transition: filter 0.15s linear, opacity 0.15s linear;
 }
 
-/* Make the 'even' layer offset by half a bulb so odd/even interlock */
+/* --- EVEN LAYER OFFSET (shift bulbs) --- */
 .float-btn::after {
-  background-position: 8px 0;           /* shift by half tile (background-size/2) */
+  background-position: 8px 8px; /* half of tile → perfect even placement */
 }
 
-/* ---------- ALTERNATING ANIMATIONS ---------- */
-/* Odd bulbs glow first, then dim; Even bulbs glow next (delay = half cycle) */
-
-@keyframes glowUp {
-  0%   { filter: brightness(0.5); opacity: 0.6;  filter: drop-shadow(0 0 0 transparent) brightness(0.5); }
-  45%  { filter: brightness(2.0); opacity: 1;    filter: drop-shadow(0 0 8px #ffe08a) brightness(2.0); }
-  55%  { filter: brightness(1.2); opacity: 0.9;  filter: drop-shadow(0 0 4px #ffd77a) brightness(1.2); }
-  100% { filter: brightness(0.5); opacity: 0.6;  filter: drop-shadow(0 0 0 transparent) brightness(0.5); }
+/* --- ANIMATIONS --- */
+@keyframes bulbGlow {
+  0%   { filter: brightness(0.4); opacity: 0.6; }
+  45%  { filter: brightness(2);   opacity: 1;   }
+  55%  { filter: brightness(1.2); opacity: 0.85;}
+  100% { filter: brightness(0.4); opacity: 0.6; }
 }
 
-/* Odd layer animation */
+/* Odd bulbs glow first */
 .float-btn::before {
-  animation: glowUp 1.2s infinite ease-in-out;
+  animation: bulbGlow 1.2s infinite ease-in-out;
 }
 
-/* Even layer animation - half-cycle offset */
+/* Even bulbs glow next (delay = half cycle) */
 .float-btn::after {
-  animation: glowUp 1.2s infinite ease-in-out;
-  animation-delay: 0.6s;                /* half of 1.2s to alternate */
+  animation: bulbGlow 1.2s infinite ease-in-out;
+  animation-delay: 0.6s;
 }
 
-/* Keep hover effect (optional) */
-.float-btn.hovered { transform: scale(1.05); opacity: 1 !important; }
+/* Hover scaling (optional) */
+.float-btn.hovered {
+  transform: scale(1.05);
+  opacity: 1 !important;
+}
+
 
   
 </style>
