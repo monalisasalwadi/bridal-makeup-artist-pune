@@ -564,7 +564,7 @@ footer{
 <!-- Floating Buttons -->
 <div class="floating-buttons">
 
-  <div class="btn-group trial">   <!-- ADD class 'trial' -->
+  <div class="btn-group" data-type="trial"> <!-- ADD class 'trial' -->
     <button class="float-btn">Bridal trial @ Just 1,000/-</button>
 
     <div class="inputForm">
@@ -573,7 +573,7 @@ footer{
     </div>
   </div>
 
-  <div class="btn-group whatsapp">   <!-- ADD class 'whatsapp' -->
+  <div class="btn-group" data-type="enquiry">   <!-- ADD class 'whatsapp' -->
     <button class="float-btn">Connect to Makeup Artist</button>
 
     <div class="inputForm">
@@ -731,7 +731,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const mobile = input.value;
       if (mobile.length !== 10) return;
 
-      fetch("https://monasalwadi.pythonanywhere.com/send?mobile=" + mobile)
+      const msgType = group.getAttribute("data-type");
+      fetch("https://monasalwadi.pythonanywhere.com/send?mobile=" + mobile + "&type=" + msgType)
+
         .then(r => r.json())
         .then(res => {
           if (res.status === "ok") {
