@@ -672,9 +672,9 @@ setupAutoGalleryVideo("autoVideo2", 5, "b");
 
 document.addEventListener("DOMContentLoaded", function () {
 
-  const buttons = document.querySelectorAll(".btn-group");
+  const groups = document.querySelectorAll(".btn-group");
 
-  buttons.forEach(group => {
+  groups.forEach(group => {
 
     const btn = group.querySelector(".float-btn");
     const form = group.querySelector(".inputForm");
@@ -683,40 +683,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let timer;
 
-function showForm() {
-  document.querySelectorAll(".inputForm").forEach(f => {
-    if (f !== form) f.style.display = "none";
-  });
+    function showForm() {
 
-  // Hide button & show input box
-  btn.style.visibility = "hidden";
-  form.style.display = "flex";
+      // Hide every other form
+      document.querySelectorAll(".btn-group").forEach(g => {
+        if (g !== group) {
+          g.querySelector(".inputForm").style.display = "none";
+          g.querySelector(".float-btn").style.visibility = "visible";
+        }
+      });
 
-  resetTimer();
-}
+      // Show this form
+      btn.style.visibility = "hidden";
+      form.style.display = "flex";
 
-function hideForm() {
-  form.style.display = "none";
-  btn.style.visibility = "visible";
-}
+      resetTimer();
+    }
 
+    function hideForm() {
+      form.style.display = "none";
+      btn.style.visibility = "visible";
+    }
 
     function resetTimer() {
       clearTimeout(timer);
       timer = setTimeout(() => hideForm(), 10000);
     }
 
+    // Show on click or hover
     btn.addEventListener("click", showForm);
     btn.addEventListener("mouseenter", showForm);
 
+    // Input typing actions
     input.addEventListener("input", () => {
-      input.value = input.value.replace(/\D/g, "");  
+      input.value = input.value.replace(/\D/g, "");
       sendButton.disabled = input.value.length !== 10;
       resetTimer();
     });
 
+    // Leaving the form resets timer
     form.addEventListener("mouseleave", resetTimer);
 
+    // Send button
     sendButton.addEventListener("click", () => {
       const mobile = input.value;
       if (mobile.length !== 10) return;
@@ -726,37 +734,39 @@ function hideForm() {
         .then(res => {
           if (res.status === "ok") {
             alert("Hello, Thank you for the message. You will receive call back within half an hour, if not please call 90110 47922");
-            input.value = "";         // Clear input box
+            input.value = "";
             sendButton.disabled = true;
             hideForm();
           } else {
             alert("Server error, try again.");
           }
         })
-        .catch(e => alert("Network error."));
+        .catch(() => alert("Network error."));
     });
+
   });
 
 });
 
-// Auto-restore floating button when mouse leaves floating area
-const floatingArea = document.querySelector(".floating-buttons");
 
+// Auto-restore floating buttons after mouse leaves entire area
+const floatingArea = document.querySelector(".floating-buttons");
 let restoreTimer;
 
 floatingArea.addEventListener("mouseleave", () => {
   clearTimeout(restoreTimer);
 
   restoreTimer = setTimeout(() => {
-    document.querySelectorAll(".btn-group").forEach(group => {
-      const btn = group.querySelector(".float-btn");
-      const form = group.querySelector(".inputForm");
 
-      form.style.display = "none";
-      btn.style.visibility = "visible";
+    // Hide ALL forms, show ALL buttons
+    document.querySelectorAll(".btn-group").forEach(group => {
+      group.querySelector(".inputForm").style.display = "none";
+      group.querySelector(".float-btn").style.visibility = "visible";
     });
-  }, 500); // 2 seconds
+
+  }, 2000); // 2 seconds
 });
+
   
   
 </script>
