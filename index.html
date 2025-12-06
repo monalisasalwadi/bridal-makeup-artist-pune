@@ -71,6 +71,7 @@ header {
   font-family: 'Armata', sans-serif; /* FIXED */
   font-size:12px;
   line-height:1.4;
+  font-weight: bold;
 }
 
 /* Columns 2 + 3 */
@@ -83,6 +84,7 @@ header {
   flex-direction:column;
   align-items:center;
   text-align:center;
+  font-weight: bold;
 }
 
 /* ONLY H1 is Lobster */
@@ -92,6 +94,7 @@ header {
   font-size:40px;
   font-weight:400;
   line-height:1.2;
+  font-weight: bold;  
 }
 
 .header-right p{
@@ -100,6 +103,7 @@ header {
   font-size:16px;
   color:#bf902b !important;
   opacity:0.95;
+  font-weight: bold;
 }
 
 .header-img-box{
@@ -212,6 +216,7 @@ footer{
   font-family: 'Armata', sans-serif; /* FIXED */
   font-weight:700;
   color:#fff;
+  font-weight: bold;
 }
 
 .footer-content{
@@ -219,7 +224,31 @@ footer{
   font-size:14px;
   font-family: 'Armata', sans-serif; /* FIXED */
   line-height:1.5;
+  font-weight: bold;
 }
+
+.footer-content p {
+  display: flex;
+  align-items: center;
+  font-family: 'Armata', sans-serif;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.footer-content .item {
+  white-space: nowrap;
+}
+
+.footer-content .price {
+  white-space: nowrap;
+}
+
+.footer-content .dots {
+  flex: 1;
+  border-bottom: 1px dotted #bf902b;
+  margin: 0 8px;
+}
+
 
 .video-grid{
   display:flex;
@@ -244,23 +273,148 @@ footer{
   z-index: 9999;
 }
 
+/* Base button */
 .float-btn {
-  background: linear-gradient(90deg, #ffffff, #bf902b);
-  color: #111;
-  padding: 12px 20px;
-  border-radius: 25px;
-  border: none;
-  font-weight: 700;
+  position: relative;
+  z-index: 3;
+  background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
+  color: #ffffff;
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-family: 'Armata', sans-serif;
+  font-size: 16px;
   cursor: pointer;
-  opacity: 0.50;
-  transition: opacity 0.3s ease, transform 0.2s ease;
   white-space: nowrap;
+  opacity: 0.5; /* Dimmed by default */
+  overflow: visible;
+  transition: opacity 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
 }
 
-.float-btn.hovered {
-  opacity: 1 !important;
-  transform: scale(1.05);
+/* --- Bulb ring around outline --- */
+.float-btn::before,
+.float-btn::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -10px;
+  right: -10px;
+  border-radius: calc(30px + 10px);
+  pointer-events: none;
+  z-index: -1;
+
+  background:
+    conic-gradient(
+      #ffd673 0deg 12deg,
+      transparent 12deg 20deg
+    );
+
+  mask:
+    radial-gradient(farthest-side,
+      transparent calc(100% - 6px),
+      black calc(100% - 4px)
+    );
+  -webkit-mask:
+    radial-gradient(farthest-side,
+      transparent calc(100% - 6px),
+      black calc(100% - 4px)
+    );
+
+  opacity: 0.9;
+  filter: brightness(0.4);
 }
+
+/* Odd bulbs rotate clockwise */
+.float-btn::before {
+  animation: oddGlow 1.4s linear infinite;
+}
+
+/* Even bulbs rotate opposite + delay → alternating effect */
+.float-btn::after {
+  animation: evenGlow 1.4s linear infinite;
+  animation-delay: 0.7s;
+}
+
+/* Animations */
+@keyframes oddGlow {
+  0%   { filter: brightness(0.4); transform: rotate(0deg); }
+  40%  { filter: brightness(2); }
+  100% { filter: brightness(0.4); transform: rotate(360deg); }
+}
+
+@keyframes evenGlow {
+  0%   { filter: brightness(0.4); transform: rotate(0deg); }
+  40%  { filter: brightness(2); }
+  100% { filter: brightness(0.4); transform: rotate(-360deg); }
+}
+
+/* Hover scaling & full brightness */
+.float-btn:hover {
+  opacity: 1;          /* Full opacity on hover */
+  transform: scale(1.05); /* Slight grow effect */
+}
+
+/* 👉 ADD THE NEW CSS BELOW THIS LINE */
+.inputForm {
+  display: none;
+  margin-top: 8px;
+  gap: 8px;
+  align-items: center;
+}
+
+.mobileInput {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #ffffff;
+  font-size: 14px;
+  flex: 1;
+}
+
+.sendBtn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: none;
+  background: #bf902b;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.inputForm .sendBtn:enabled {
+  opacity: 1;
+}
+
+/* Special colors for input fields */
+.btn-group.trial .mobileInput {
+  background: rgba(0, 97, 13, 0.95);      /* Green @ 25% opacity */
+  border: 1px solid #00aa00;
+}
+
+.btn-group.whatsapp .mobileInput {
+  background: rgba(0, 0, 134, 0.95);      /* Blue @ 25% opacity */
+  border: 1px solid #0000aa;
+}
+
+.btn-group {
+  position: relative;
+  width: 240px; /* same width for button & input */
+}
+
+.btn-group .float-btn {
+  width: 100%;
+}
+
+.btn-group .inputForm {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+  
 </style>
 </head>
 
@@ -280,7 +434,7 @@ footer{
 
   <!-- Columns 2 + 3 -->
   <div class="header-right span2">
-    <h1>MS Bridal Make Over - Pune</h1>
+    <h1>MS Bridal Make-up Artist * Pune * </h1>
     <p>पुण्यातील परवडणाऱ्या वधूंचा मेकअप</p>
 
     <p>Bridal Make-Over | Hair-Style | Saree Drape</p>
@@ -336,17 +490,57 @@ footer{
 
 <footer>
   <div class="footer-card">
-    <div class="footer-header">Packages</div>
+    <div class="footer-header">Bridal Packages</div>
     <div class="footer-content">
-      <p>Bride Marriage — ₹7,000</p>
-      <p>Bride Engagement — ₹6,000</p>
-      <p>Bride Reception — ₹6,500</p>
-      <p>Bride Mehendi — ₹4,000</p>
-      <p>Bride Hairstyle — ₹1,500</p>
-      <p>Bride Saree Drape — ₹1,200</p>
-      <p>Sider Makeup — ₹3600</p>
+
+      <p><span class="item">HD-Bridal Package</span><span class="dots"></span><span class="price">₹17,999 </span></p>
+      <p style="margin-bottom: 20px;"><span class="item">Marriage + Haldi + Mehendi + Sangeet</span></p>
+
+      <p><span class="item">SD-Bridal Package</span><span class="dots"></span><span class="price">₹15,499 </span></p>
+      <p style="margin-bottom: 30px;"><span class="item">Marriage + Haldi + Mehendi + Sangeet</span></p>
+
+      <p style="margin-bottom: 10px;"><strong>À la carte:-</strong></p>
+
+      <p style="margin-bottom: 15px;"><span class="item">HD Bridal Makeup</span><span class="dots"></span><span class="price">₹9,999</span></p>
+
+      <p style="margin-bottom: 15px;"><span class="item">SD Bridal Makeup</span><span class="dots"></span><span class="price">₹7,999</span></p>
+
+      <p style="margin-bottom: 15px;"><span class="item">Engagement Makeup</span><span class="dots"></span><span class="price">₹4,999</span></p>
+
+      <p style="margin-bottom: 15px;"><span class="item">Mehendi Event Makeup</span><span class="dots"></span><span class="price">₹3,500</span></p>
+
+      <p style="margin-bottom: 15px;"><span class="item">Sangeet Event Makeup</span><span class="dots"></span><span class="price">₹3,500</span></p>
+
+      <p style="margin-bottom: 5px;"><span class="item">Cocktail Party Makeup</span><span class="dots"></span><span class="price">₹3,500</span></p>
+
     </div>
   </div>
+
+
+<div class="footer-card">
+  <div class="footer-header">Other Packages</div>
+  <div class="footer-content">
+
+    <!-- Baby Shower -->
+    <p><span class="item"><strong>Baby-Shower Package</strong></span><span class="dots"></span><span class="price">₹3,500</span></p>
+    <p style="margin-bottom: 20px;"><span class="item">Makeup + Hair-Styling + Saree Draping</span></p>
+
+    <!-- Guest/Sider -->
+    <p><span class="item"><strong>Guest / Sider Package</strong></span><span class="dots"></span><span class="price">₹2,500</span></p>
+    <p style="margin-bottom: 30px;"><span class="item">Makeup + Hair-Styling + Saree Draping</span></p>
+
+    <!-- Miscellaneous -->
+    <p style="margin-bottom: 10px;"><strong>Miscellaneous:-</strong></p>
+
+    <p style="margin-bottom: 15px;"><span class="item">Hair-Styling</span><span class="dots"></span><span class="price">₹800</span></p>
+
+    <p style="margin-bottom: 15px;"><span class="item">Saree Draping</span><span class="dots"></span><span class="price">₹500</span></p>
+
+    <p style="margin-bottom: 5px;"><span class="item">Saree Pre-pleating</span><span class="dots"></span><span class="price">₹200</span></p>
+
+  </div>
+</div>
+ 
 
   <div class="footer-card">
     <div class="footer-header">Satisfied Souls</div>
@@ -356,34 +550,44 @@ footer{
     </div>
   </div>
 
-  <div class="footer-card">
-    <div class="footer-header">Happy Members</div>
-    <div class="footer-content">
-      <p>• Video testimonials coming soon…</p>
-      <p>• Brides sharing their experiences</p>
-      <p>• Before–After transformations</p>
-    </div>
-  </div>
-
 
   <div class="footer-card">
-    <div class="footer-header">Learn from Expert</div>
+    <div class="footer-header">Policies - Must read</div>
     <div class="footer-content">
-      <p>• Offline Professional Classes</p>
-      <p>• Online Makeup Training</p>
-      <p>• Basic Home Makeup Course</p>
-      <p>• Hairstyling Workshop</p>
-      <p>• Saree Draping Masterclass</p>
-      <p>• Weekend Fast-track Courses</p>
+      <p style="margin-bottom: 20px;">Kindly Book 2-3 weeks in advance</p>
+      <p style="margin-bottom: 20px;">Advance for booking - 30% of total</p>
+      <p style="margin-bottom: 20px;">Slot booked - when Advance is paid</p>
+      <p style="margin-bottom: 20px;">Makeup Artist will travel to venue</p>
+      <p style="margin-bottom: 20px;">Client will bear the travel charges</p>
+      <p style="margin-bottom: 20px;">Trial amount adjusted, if booked</p>
     </div>
   </div>
 </footer>
 
 <!-- Floating Buttons -->
 <div class="floating-buttons">
-  <button class="float-btn" id="bookBtn">Bridal trial @ Just 500/-</button>
-  <button class="float-btn" id="whatsappBtn">Connect thru whatsapp</button>
+
+  <div class="btn-group" data-type="trial"> <!-- ADD class 'trial' -->
+    <button class="float-btn">Bridal trial @ Just 1,000/-</button>
+
+    <div class="inputForm">
+      <input type="text" class="mobileInput" placeholder="Pls Input Mobile Number" maxlength="10">
+      <button class="sendBtn" disabled>Send</button>
+    </div>
+  </div>
+
+  <div class="btn-group" data-type="enquiry">   <!-- ADD class 'whatsapp' -->
+    <button class="float-btn">Connect to Makeup Artist</button>
+
+    <div class="inputForm">
+      <input type="text" class="mobileInput" placeholder="Pls Input Mobile Number" maxlength="10">
+      <button class="sendBtn" disabled>Send</button>
+    </div>
+  </div>
+
 </div>
+
+
 
 <script>
 // Gallery flip script
@@ -471,6 +675,108 @@ setupAutoGalleryVideo("autoVideo1", 6, "a");
 setupAutoGalleryVideo("autoVideo2", 5, "b");
 
 
+document.addEventListener("DOMContentLoaded", function () {
+
+  const groups = document.querySelectorAll(".btn-group");
+
+  groups.forEach(group => {
+
+    const btn = group.querySelector(".float-btn");
+    const form = group.querySelector(".inputForm");
+    const input = group.querySelector(".mobileInput");
+    const sendButton = group.querySelector(".sendBtn");
+
+    let timer;
+
+    function showForm() {
+
+      // Hide every other form
+      document.querySelectorAll(".btn-group").forEach(g => {
+        if (g !== group) {
+          g.querySelector(".inputForm").style.display = "none";
+          g.querySelector(".float-btn").style.visibility = "visible";
+        }
+      });
+
+      // Show this form
+      btn.style.visibility = "hidden";
+      form.style.display = "flex";
+
+      resetTimer();
+    }
+
+    function hideForm() {
+      form.style.display = "none";
+      btn.style.visibility = "visible";
+    }
+
+    function resetTimer() {
+      clearTimeout(timer);
+      timer = setTimeout(() => hideForm(), 10000);
+    }
+
+    // Show on click or hover
+    btn.addEventListener("click", showForm);
+    btn.addEventListener("mouseenter", showForm);
+
+    // Input typing actions
+    input.addEventListener("input", () => {
+      input.value = input.value.replace(/\D/g, "");
+      sendButton.disabled = input.value.length !== 10;
+      resetTimer();
+    });
+
+    // Leaving the form resets timer
+    form.addEventListener("mouseleave", resetTimer);
+
+    // Send button
+    sendButton.addEventListener("click", () => {
+      const mobile = input.value;
+      if (mobile.length !== 10) return;
+    
+      const msgType = group.getAttribute("data-type");
+    
+      fetch("https://monasalwadi.pythonanywhere.com/send?mobile=" + mobile + "&type=" + msgType)
+        .then(r => r.json())
+        .then(res => {
+          if (res.status === "ok") {
+            alert("Hello, Thank you for the message. You will receive call back within half an hour, if not please call 90110 47922");
+            input.value = "";
+            sendButton.disabled = true;
+            hideForm();
+          } else {
+            alert("Server error, try again.");
+          }
+        })
+        .catch(() => alert("Network error."));
+    });
+
+
+  });
+
+});
+
+
+// Auto-restore floating buttons after mouse leaves entire area
+const floatingArea = document.querySelector(".floating-buttons");
+let restoreTimer;
+
+floatingArea.addEventListener("mouseleave", () => {
+  clearTimeout(restoreTimer);
+
+  restoreTimer = setTimeout(() => {
+
+    // Hide ALL forms, show ALL buttons
+    document.querySelectorAll(".btn-group").forEach(group => {
+      group.querySelector(".inputForm").style.display = "none";
+      group.querySelector(".float-btn").style.visibility = "visible";
+    });
+
+  }, 500); // 0.5 seconds
+});
+
+  
+  
 </script>
 
 </body>
