@@ -738,6 +738,26 @@ function hideForm() {
   });
 
 });
+
+// Auto-restore floating button when mouse leaves floating area
+const floatingArea = document.querySelector(".floating-buttons");
+
+let restoreTimer;
+
+floatingArea.addEventListener("mouseleave", () => {
+  clearTimeout(restoreTimer);
+
+  restoreTimer = setTimeout(() => {
+    document.querySelectorAll(".btn-group").forEach(group => {
+      const btn = group.querySelector(".float-btn");
+      const form = group.querySelector(".inputForm");
+
+      form.style.display = "none";
+      btn.style.visibility = "visible";
+    });
+  }, 2000); // 2 seconds
+});
+  
   
 </script>
 
