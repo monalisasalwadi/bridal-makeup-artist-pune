@@ -96,17 +96,17 @@ header{
 }
 
 /* Button groups (header-only) */
-.btn-group{
-  width:220px;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  position:relative;
+.btn-group {
+  display: inline-flex;   /* horizontal alignment */
+  align-items: center;    /* vertical centering */
+  gap: 6px;               /* small gap between elements */
+  position: relative;
+  width: auto;            /* let it shrink-wrap content */
 }
 
 /* Primary visible button */
 .header-btn{
-  width:100%;
+  width: auto;
   background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
   color:#fff;
   border:0;
@@ -121,19 +121,19 @@ header{
 }
 
 /* Hidden input form shown on hover/click */
-.inputForm{
-  display:none;  
-  margin-top:8px;
-  width:100%;
-  gap:8px;
-  align-items:center;
-  flex-direction: row;
+.inputForm {
+  display: none;          /* initially hidden */
+  flex-direction: row;    /* horizontal layout */
+  align-items: center;
+  gap: 6px;
+  margin: 0;              /* remove vertical spacing */
 }
 
 
 /* Input + send button layout */
 .mobileInput {
   flex: 1;
+  width: 120px;
   padding: 6px 10px;
   border-radius: 16px;
   border: 1px solid #bf902b;
@@ -152,6 +152,7 @@ header{
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
+  width: auto;
   opacity: 0.7;
 }
 
@@ -236,26 +237,7 @@ footer{
   .btn-group{ width:160px; }
 }
 
-/* MOBILE — place the two buttons side-by-side */
-@media (max-width: 600px) {
-  .header-buttons {
-    flex-direction: row;
-    gap: 10px;
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .btn-group {
-    width: 48%;        /* two equal width buttons side by side */
-  }
-
-  /* input forms should stay below each button, full width inside the group */
-  .btn-group .inputForm {
-    width: 100%;
-    flex-direction: row;
-  }
-}
-  
+   
 /* visual focus states */
 .header-btn:focus,
 .mobileInput:focus,
