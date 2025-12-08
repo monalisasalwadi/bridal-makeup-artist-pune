@@ -15,6 +15,9 @@
   --flip-duration:0.9s;
   --gold: #bf902b;
   --black: #000;
+  --transition-fast: 220ms;
+  --transition-medium: 320ms;
+  --swap-max-height: 160px; /* max height when form is opened */
 }
 
 /* Reset & base */
@@ -40,13 +43,14 @@ header{
   margin: 0 auto;
 }
 
-
-/* Left column */
+/* Left column (logo + tagline) - center aligned vertically and horizontally inside column */
 .header-left {
   display:flex;
   flex-direction:column;
-  align-items:flex-start;
+  align-items:center;         /* centered horizontally */
+  justify-content:center;     /* centered vertically within column */
   gap:6px;
+  text-align:center;
 }
 .logo{
   width:68px;
@@ -78,6 +82,8 @@ header{
   line-height:1.05;
   color:var(--gold);
   font-weight:700;
+  /* glow */
+  text-shadow: 0 2px 8px rgba(191,144,43,0.18), 0 6px 24px rgba(191,144,43,0.06);
 }
 .header-center p{
   margin:6px 0 0;
@@ -90,23 +96,45 @@ header{
 /* Right column — buttons container */
 .header-buttons{
   display:flex;
-  flex-direction:column;
+  flex-direction:column; /* desktop default stacked */
   gap:8px;
   align-items:flex-end;
 }
 
-/* Button groups (header-only) */
+/* Button group container: we animate the swap by changing max-height on .swap */
 .btn-group {
-  display: inline-flex;   /* horizontal alignment */
-  align-items: center;    /* vertical centering */
-  gap: 6px;               /* small gap between elements */
   position: relative;
-  width: auto;            /* let it shrink-wrap content */
+  width: auto;
+  overflow: visible;
+}
+
+/* swap wrapper: will animate max-height from button height to form height */
+.swap {
+  overflow: hidden;
+  max-height: 56px; /* default height matching button */
+  transition: max-height var(--transition-medium) ease, padding var(--transition-fast) ease;
+  display: block;
+  border-radius: 22px;
+}
+
+/* when open, allow more height for form (use CSS var for control) */
+.swap.open {
+  max-height: var(--swap-max-height);
+}
+
+/* internal layout: button and form stacked */
+.swap-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 6px;
+  gap: 8px;
+  background: transparent;
+  transition: background var(--transition-fast);
 }
 
 /* Primary visible button */
 .header-btn{
-  width: auto;
   background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
   color:#fff;
   border:0;
@@ -118,23 +146,43 @@ header{
   text-align:center;
   white-space:nowrap;
   box-shadow: 0 2px 8px rgba(191,144,43,0.12);
+  transition: transform var(--transition-fast) ease, opacity var(--transition-fast) ease;
+  display:inline-flex;
+  align-items:center;
 }
 
-/* Hidden input form shown on hover/click */
+/* The input form (hidden by default inside swap) */
 .inputForm {
-  display: none;          /* initially hidden */
-  flex-direction: row;    /* horizontal layout */
+  display: flex;
   align-items: center;
   gap: 6px;
-  margin: 0;              /* remove vertical spacing */
+  margin: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity var(--transition-fast) ease, transform var(--transition-fast) ease;
+  pointer-events: none;
+  width: 100%;
 }
 
+/* when swap open, reveal form */
+.swap.open .inputForm {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* when swap open, fade out button */
+.swap.open .header-btn {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  pointer-events: none;
+}
 
 /* Input + send button layout */
 .mobileInput {
   flex: 1;
-  width: 120px;
-  padding: 6px 10px;
+  min-width: 100px;
+  padding: 8px 10px;
   border-radius: 16px;
   border: 1px solid #bf902b;
   font-size: 12px;
@@ -142,7 +190,7 @@ header{
   color: #000000;
 }
 
-
+/* small send button */
 .sendBtn {
   padding: 6px 12px;
   border-radius: 16px;
@@ -154,13 +202,18 @@ header{
   cursor: pointer;
   width: auto;
   opacity: 0.7;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
-
 .sendBtn:enabled {
   opacity: 1;
 }
 
-
+/* swap background to show subtle card when open (optional) */
+.swap.open .swap-inner {
+  background: rgba(255,255,255,0.02);
+  padding: 10px;
+  border-radius: 20px;
+}
 
 /* ---------------- PAGE / GALLERY ---------------- */
 .page{
@@ -222,6 +275,15 @@ footer{
 .footer-header{ background:linear-gradient(180deg,rgba(191,144,43,1),rgba(150,110,33,1)); padding:12px; text-align:center; font-family:'Armata',sans-serif; font-weight:700; color:#fff; }
 .footer-content{ padding:14px 16px; font-family:'Armata',sans-serif; font-weight:700; color:var(--gold); line-height:1.5; }
 
+/* product separator line */
+.prod-line {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(191,144,43,0.12), rgba(191,144,43,0.22));
+  margin: 8px 0 6px;
+  border-radius: 2px;
+}
+
 /* ---------------- RESPONSIVE TWEAKS ---------------- */
 @media (max-width: 900px){
   header{ padding:12px; grid-template-columns: auto 1fr; }
@@ -231,7 +293,22 @@ footer{
   .page{ margin-top:20px; }  /* FIXED — remove huge gap */
 }
 
-  
+/* Mobile: show two buttons side-by-side */
+@media (max-width: 700px) {
+  .header-buttons {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+  }
+  .btn-group { width: 48%; }
+  .swap { max-height: 56px; } /* default button height */
+  .swap.open { max-height: var(--swap-max-height); }
+  .swap-inner { justify-content: center; }
+  .mobileInput { font-size: 13px; padding: 8px; }
+}
+
 /* visual focus states */
 .header-btn:focus,
 .mobileInput:focus,
@@ -260,18 +337,30 @@ footer{
   <div class="header-buttons" aria-hidden="false">
 
     <div class="btn-group trial" data-type="trial" aria-label="Bridal trial">
-      <button class="header-btn" type="button" aria-expanded="false">Bridal trial @ 1,000/-</button>
-      <div class="inputForm" aria-hidden="true">
-        <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for trial">
-        <button class="sendBtn" type="button" disabled>Send</button>
+      <div class="swap" aria-expanded="false">
+        <div class="swap-inner">
+          <!-- Button visible by default -->
+          <button class="header-btn" type="button" aria-expanded="false">Bridal trial @ just 1,000/-</button>
+
+          <!-- Form hidden by default inside swap -->
+          <div class="inputForm" aria-hidden="true">
+            <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for trial">
+            <button class="sendBtn" type="button" disabled>Send</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="btn-group enquiry" data-type="enquiry" aria-label="Connect to makeup artist">
-      <button class="header-btn" type="button" aria-expanded="false">Connect to Makeup Artist</button>
-      <div class="inputForm" aria-hidden="true">
-        <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for enquiry">
-        <button class="sendBtn" type="button" disabled>Send</button>
+      <div class="swap" aria-expanded="false">
+        <div class="swap-inner">
+          <button class="header-btn" type="button" aria-expanded="false">Connect to Makeup Artist</button>
+
+          <div class="inputForm" aria-hidden="true">
+            <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for enquiry">
+            <button class="sendBtn" type="button" disabled>Send</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -325,9 +414,13 @@ footer{
       <p><small>Marriage + Haldi + Mehendi + Sangeet</small></p>
       <p><small>Products: Nars, HUDA, Dior, Kiko, MAC</small></p>
 
+      <hr class="prod-line">
+
       <p style="margin-top:12px;"><span class="item">Basic Bridal Package</span><span class="dots"></span><span class="price">₹15,499</span></p>
       <p><small>Marriage + Haldi + Mehendi + Sangeet</small></p>
       <p><small>Products: Forever52, Krylon, Imagic, Europe Girl</small></p>
+
+      <hr class="prod-line">
 
       <p style="margin-top:12px;"><strong>À la carte:</strong></p>
       <p>HD Bridal Makeup — ₹9,999</p>
@@ -439,7 +532,7 @@ function setupAutoGalleryVideo(videoId, fileCount, prefix){
 setupAutoGalleryVideo("autoVideo1", 6, "a");
 setupAutoGalleryVideo("autoVideo2", 5, "b");
 
-// ---------------- Header button behavior (Option A) ----------------
+// ---------------- Header button behavior (height-swap animation) ----------------
 document.addEventListener('DOMContentLoaded', () => {
 
   // detect hover-capable devices (desktop)
@@ -447,43 +540,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // helper to show/hide form for a group
   function showFormFor(group){
+    // close others
     document.querySelectorAll('.btn-group').forEach(g => {
-      if (g !== group){
-        hideFormFor(g);
-      }
+      if (g !== group) hideFormFor(g);
     });
-  
+
+    const swap = group.querySelector('.swap');
     const form = group.querySelector('.inputForm');
     const btn  = group.querySelector('.header-btn');
-  
-    btn.style.display = "none";       // HIDE BUTTON
-    form.style.display = 'flex';      // SHOW FORM
+
+    // open swap (this animates max-height)
+    swap.classList.add('open');
+    swap.setAttribute('aria-expanded','true');
     form.setAttribute('aria-hidden','false');
     btn.setAttribute('aria-expanded','true');
-  
-    const input = form.querySelector('.mobileInput');
-    setTimeout(()=> input.focus(), 160);
+
+    // focus the input after animation start (small delay to allow visible change and mobile keyboard)
+    setTimeout(()=> {
+      const input = form.querySelector('.mobileInput');
+      input && input.focus();
+    }, 180);
   }
 
   function hideFormFor(group){
+    const swap = group.querySelector('.swap');
     const form = group.querySelector('.inputForm');
     const btn  = group.querySelector('.header-btn');
-  
-    form.style.display = 'none';     // HIDE FORM
-    btn.style.display = "inline-flex"; // SHOW BUTTON BACK
+
+    swap.classList.remove('open');
+    swap.setAttribute('aria-expanded','false');
     form.setAttribute('aria-hidden','true');
     btn.setAttribute('aria-expanded','false');
-  
-    const input = form.querySelector('.mobileInput');
-    input.value = '';
-    const send = form.querySelector('.sendBtn');
-    send.disabled = true;
-  }
 
+    // clear input after closing animation to avoid flash
+    setTimeout(()=> {
+      const input = form.querySelector('.mobileInput');
+      const send = form.querySelector('.sendBtn');
+      if (input) input.value = '';
+      if (send) send.disabled = true;
+    }, 340);
+  }
 
   // auto-hide timer per group
   const timers = new WeakMap();
-
   function resetTimer(group){
     clearTimeout(timers.get(group));
     const t = setTimeout(()=> hideFormFor(group), 2000);
@@ -492,13 +591,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // attach handlers for each group
   document.querySelectorAll('.btn-group').forEach(group => {
+    const swap = group.querySelector('.swap');
     const btn = group.querySelector('.header-btn');
     const form = group.querySelector('.inputForm');
     const input = form.querySelector('.mobileInput');
     const send = form.querySelector('.sendBtn');
 
     // ensure initial state
-    form.style.display = 'none';
+    swap.classList.remove('open');
+    swap.setAttribute('aria-expanded','false');
     form.setAttribute('aria-hidden','true');
     btn.setAttribute('aria-expanded','false');
     send.disabled = true;
@@ -512,22 +613,23 @@ document.addEventListener('DOMContentLoaded', () => {
       group.addEventListener('mouseleave', () => {
         resetTimer(group); // follow the 2 sec rule
       });
-
     }
 
     // Click / touch → toggle (mobile & desktop click)
-    // Use touchstart to be snappy on mobile
     const openOnPointer = (ev) => {
-      ev.preventDefault && ev.preventDefault();
-      // toggle
-      if (form.style.display === 'flex'){
+      // Prevent default behavior on touchstart elsewhere; allow normal click
+      // If form is currently visible, close it; else open it.
+      if (form.getAttribute('aria-hidden') === 'false'){
         hideFormFor(group);
       } else {
         showFormFor(group);
         resetTimer(group);
       }
+      // prevent double focus on touchstart
+      ev.preventDefault && ev.preventDefault();
     };
 
+    // Use touchstart for snappy mobile activation, but also support click
     btn.addEventListener('click', openOnPointer);
     btn.addEventListener('touchstart', (e) => {
       // prevent double activation on some devices
@@ -535,7 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
       openOnPointer(e);
     }, {passive:false});
 
-    // Input events: validate
+    // Input events: validate numeric
     input.addEventListener('input', () => {
       input.value = input.value.replace(/\D/g,'').slice(0,10); // digits only, max 10
       send.disabled = input.value.trim().length !== 10;
