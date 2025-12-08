@@ -285,37 +285,48 @@ footer{
 /* Mobile layout: side-by-side buttons */
 @media (max-width: 700px) {
   header {
-    display: flex;                /* switch from grid to flex */
-    flex-direction: column;       /* stack logo, center, buttons */
-    align-items: flex-start;      /* left-align content */
+    display: flex;
+    flex-direction: column;  /* stack top row and button row */
     gap: 12px;
     padding: 12px;
   }
 
+  /* Top row: logo + text side by side */
+  .header-top {
+    display: flex;
+    justify-content: space-between; /* logo left, text right */
+    align-items: flex-start;
+    width: 100%;
+    gap: 12px;
+  }
+
   .header-left {
-    align-items: flex-start;      /* push logo/tagline left */
+    flex-shrink: 0;          /* keep logo size fixed */
+    align-items: flex-start;
+    text-align: left;
   }
 
   .header-center {
+    flex: 1;                 /* take remaining space */
     text-align: left;
     align-items: flex-start;
-    width: 100%;
   }
 
+  /* Bottom row: buttons */
   .header-buttons {
-    flex-direction: row;          /* side-by-side buttons */
-    justify-content: flex-start;  /* push buttons to far left */
+    display: flex;
+    justify-content: space-between; /* first button left, second right */
     width: 100%;
     gap: 8px;
   }
 
   .btn-group {
-    flex: 0 1 auto;               /* shrink to fit content */
+    flex: 0 1 auto;           /* shrink to content width */
   }
 
   .header-btn {
-    white-space: nowrap;          /* force one line */
-    width: auto;                  /* shrink to content width */
+    white-space: nowrap;      /* keep button in one line */
+    width: auto;
     font-size: 13px;
     padding: 8px 10px;
   }
