@@ -151,6 +151,33 @@ header{
   display: flex;
 }
 
+
+.header-buttons-fixed {
+  position: sticky;      /* stays visible on scroll */
+  top: 0;                /* stick to top */
+  z-index: 999;
+  background: var(--black);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  gap: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  min-height: 60px;      /* slightly taller than buttons */
+}
+
+/* Each button in fixed header */
+.header-buttons-fixed .btn-group {
+  flex: 0 1 auto;       /* shrink to fit */
+}
+
+.header-buttons-fixed .header-btn {
+  white-space: nowrap;  /* one line */
+  font-size: 13px;
+  padding: 8px 14px;
+}
+
+  
 /* Input + send button layout */
 .mobileInput {
   flex: 1;
@@ -372,6 +399,34 @@ footer{
 
   </div>
 </header>
+
+<!-- SECOND HEADER BAR FOR BUTTONS -->
+<div class="header-buttons-fixed">
+  <div class="btn-group trial" data-type="trial" aria-label="Bridal trial">
+    <div class="swap" aria-expanded="false">
+      <div class="swap-inner">
+        <button class="header-btn" type="button" aria-expanded="false">Bridal trial @ just 1,000/-</button>
+        <div class="inputForm" aria-hidden="true">
+          <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for trial">
+          <button class="sendBtn" type="button" disabled>Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-group enquiry" data-type="enquiry" aria-label="Connect to makeup artist">
+    <div class="swap" aria-expanded="false">
+      <div class="swap-inner">
+        <button class="header-btn" type="button" aria-expanded="false">Connect to Makeup Artist</button>
+        <div class="inputForm" aria-hidden="true">
+          <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for enquiry">
+          <button class="sendBtn" type="button" disabled>Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- PAGE CONTENT (gallery, footer, etc.) -->
 <div class="page">
