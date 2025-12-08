@@ -284,24 +284,43 @@ footer{
 
 /* Mobile layout: side-by-side buttons */
 @media (max-width: 700px) {
+  header {
+    display: flex;                /* switch from grid to flex */
+    flex-direction: column;       /* stack logo, center, buttons */
+    align-items: flex-start;      /* left-align content */
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .header-left {
+    align-items: flex-start;      /* push logo/tagline left */
+  }
+
+  .header-center {
+    text-align: left;
+    align-items: flex-start;
+    width: 100%;
+  }
+
   .header-buttons {
-    flex-direction: row;           /* horizontal layout */
-    justify-content: flex-start;   /* push to left */
+    flex-direction: row;          /* side-by-side buttons */
+    justify-content: flex-start;  /* push buttons to far left */
     width: 100%;
     gap: 8px;
   }
 
   .btn-group {
-    flex: 0 1 auto;                /* shrink to content width */
+    flex: 0 1 auto;               /* shrink to fit content */
   }
 
   .header-btn {
-    width: auto;                   /* don't fill container */
-    white-space: nowrap;           /* force one line */
-    font-size: 13px;               /* optional: slightly smaller if needed */
-    padding: 8px 10px;             /* keep oval shape */
+    white-space: nowrap;          /* force one line */
+    width: auto;                  /* shrink to content width */
+    font-size: 13px;
+    padding: 8px 10px;
   }
 }
+
 
   .inputForm {
     width: 100%;                   /* form fills button space */
