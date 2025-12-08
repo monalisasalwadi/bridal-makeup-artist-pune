@@ -380,6 +380,79 @@ footer{
   top: 70px !important;
 }
 
+/* HEADER BUTTON SECTION */
+.header-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.header-btn {
+  background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 22px;
+  font-family: 'Armata', sans-serif;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.header-btn:hover {
+  opacity: 1;
+}
+
+.btn-group {
+  position: relative;
+  width: 100%;
+  max-width: 260px;
+}
+
+.inputForm {
+  display: none;
+  margin-top: 6px;
+  width: 100%;
+  display: flex;
+  gap: 6px;
+}
+
+.mobileInput {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: 1px solid #fff;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 12px;
+}
+
+.sendBtn {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #bf902b;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  opacity: 0.5;
+}
+
+.sendBtn:enabled {
+  opacity: 1;
+}
+
+@media(max-width:600px){
+  header {
+    grid-template-columns: 1fr 1fr;
+  }
+  .header-buttons {
+    grid-column: span 2;
+    align-items: center;
+    margin-top: 10px;
+  }
+}
+
   
 </style>
 </head>
@@ -387,6 +460,7 @@ footer{
 <body>
 
 <header>
+
   <!-- Column 1 -->
   <div class="header-left">
     <div class="logo">
@@ -398,19 +472,44 @@ footer{
     </div>
   </div>
 
-  <!-- Columns 2 + 3 -->
-  <div class="header-right span2">
-    <h1>MS Bridal Make-up Artist * Pune * </h1>
+  <!-- Column 2 -->
+  <div class="header-right">
+    <h1>MS Bridal Make-up Artist • Pune</h1>
     <p>पुण्यातील परवडणाऱ्या वधूंचा मेकअप</p>
-
-    <p>Bridal Make-Over | Hair-Style | Saree Drape</p>
+    <p>Bridal | Hair-Style | Saree Drape</p>
     <p>Engagement | Sangeet | Reception | Mehendi</p>
   </div>
 
-  <!-- Column 4 -->
+  <!-- Column 3 (empty for spacing) -->
+  <div></div>
 
+  <!-- Column 4 — BUTTONS MOVED HERE -->
+  <div class="header-buttons">
+    
+    <!-- Trial Button -->
+    <div class="btn-group" data-type="trial">
+      <button class="header-btn">Bridal trial @ 1,000/-</button>
+
+      <div class="inputForm">
+        <input type="text" class="mobileInput" placeholder="Mobile Number" maxlength="10">
+        <button class="sendBtn" disabled>Send</button>
+      </div>
+    </div>
+
+    <!-- Enquiry Button -->
+    <div class="btn-group" data-type="enquiry">
+      <button class="header-btn">Connect to Makeup Artist</button>
+
+      <div class="inputForm">
+        <input type="text" class="mobileInput" placeholder="Mobile Number" maxlength="10">
+        <button class="sendBtn" disabled>Send</button>
+      </div>
+    </div>
+
+  </div>
 
 </header>
+
 
 
 <div class="page">
@@ -797,6 +896,45 @@ document.querySelectorAll(".mobileInput").forEach(inp => {
   inp.addEventListener("blur", keyboardClose);
 });
 
+document.querySelectorAll(".btn-group").forEach(group => {
+  
+  const btn = group.querySelector(".header-btn");
+  const form = group.querySelector(".inputForm");
+  const input = group.querySelector(".mobileInput");
+  const sendButton = group.querySelector(".sendBtn");
+
+  btn.addEventListener("click", () => {
+    form.style.display = form.style.display === "flex" ? "none" : "flex";
+    input.focus();
+  });
+
+  input.addEventListener("input", () => {
+    input.value = input.value.replace(/\D/g, "");
+    sendButton.disabled = input.value.length !== 10;
+  });
+
+  sendButton.addEventListener("click", () => {
+    const mobile = input.value;
+    const msgType = group.dataset.type;
+
+    fetch("https://monasalwadi.pythonanywhere.com/send?mobile=" + mobile + "&type=" + msgType)
+      .then(r => r.json())
+      .then(res => {
+        if (res.status === "ok") {
+          alert("Thank you! You will receive a callback soon.");
+          input.value = "";
+          sendButton.disabled = true;
+          form.style.display = "none";
+        } else {
+          alert("Server error. Try again.");
+        }
+      })
+      .catch(() => alert("Network error."));
+  });
+
+});
+
+  
 </script>
 
 
