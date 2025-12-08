@@ -28,7 +28,7 @@ body {
 
 /* ---------------- HEADER ---------------- */
 header {
-  background: #000000 !important;
+  background: #000000;
   padding: 20px 15px 15px;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr; /* middle section merged */
@@ -273,6 +273,82 @@ footer {
   border:1px solid #0000aa;
 }
 
+/* Button group container (header) */
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 220px;
+  position: relative;
+}
+
+/* Visible button */
+.float-btn {
+  background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-family: 'Armata', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* Hidden input form */
+.inputForm {
+  display: none;
+  margin-top: 8px;
+  width: 100%;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Input styling */
+.mobileInput {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #fff;
+  font-size: 14px;
+}
+
+/* Send button */
+.sendBtn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: none;
+  background: #bf902b;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.sendBtn:enabled {
+  opacity: 1;
+}
+
+/* Special theme colors */
+.btn-group.trial .mobileInput {
+  background: rgba(0,97,13,0.9);
+  border: 1px solid #00aa00;
+}
+
+.btn-group.whatsapp .mobileInput {
+  background: rgba(0,0,134,0.9);
+  border: 1px solid #0000aa;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .btn-group { width: 180px; }
+  .float-btn { font-size: 12px; padding: 8px 14px; }
+  .mobileInput, .sendBtn { font-size: 12px; padding: 6px 10px; }
+}
+
+  
 /* ---------------- MOBILE ADJUSTMENTS ---------------- */
 @media (max-width:600px) {
 
@@ -686,45 +762,46 @@ function keyboardClose(){
   document.querySelector(".floating-buttons").classList.remove("keyboard-open");
 }
 
-document.querySelectorAll(".mobileInput").forEach(inp => {
-  inp.addEventListener("focus", keyboardOpen);
-  inp.addEventListener("blur", keyboardClose);
-});
-
 document.querySelectorAll(".btn-group").forEach(group => {
-  
-  const btn = group.querySelector(".header-btn");
+
+  const button = group.querySelector(".float-btn");
   const form = group.querySelector(".inputForm");
   const input = group.querySelector(".mobileInput");
-  const sendButton = group.querySelector(".sendBtn");
+  const sendBtn = group.querySelector(".sendBtn");
 
-  btn.addEventListener("click", () => {
-    form.style.display = form.style.display === "flex" ? "none" : "flex";
+  // SHOW on click/tap
+  button.addEventListener("click", () => {
+    form.style.display = "flex";
     input.focus();
   });
 
-  input.addEventListener("input", () => {
-    input.value = input.value.replace(/\D/g, "");
-    sendButton.disabled = input.value.length !== 10;
+  // DESKTOP ONLY: show on hover
+  group.addEventListener("mouseenter", () => {
+    if (window.innerWidth > 600) {
+      form.style.display = "flex";
+    }
   });
 
-  sendButton.addEventListener("click", () => {
-    const mobile = input.value;
-    const msgType = group.dataset.type;
+  // DESKTOP ONLY: hide on mouse leave
+  group.addEventListener("mouseleave", () => {
+    if (window.innerWidth > 600) {
+      form.style.display = "none";
+      input.value = "";
+      sendBtn.disabled = true;
+    }
+  });
 
-    fetch("https://monasalwadi.pythonanywhere.com/send?mobile=" + mobile + "&type=" + msgType)
-      .then(r => r.json())
-      .then(res => {
-        if (res.status === "ok") {
-          alert("Thank you! You will receive a callback soon.");
-          input.value = "";
-          sendButton.disabled = true;
-          form.style.display = "none";
-        } else {
-          alert("Server error. Try again.");
-        }
-      })
-      .catch(() => alert("Network error."));
+  // Enable send button only if number entered
+  input.addEventListener("input", () => {
+    sendBtn.disabled = input.value.trim().length < 10;
+  });
+
+  // Send action
+  sendBtn.addEventListener("click", () => {
+    alert("Sent: " + input.value);
+    input.value = "";
+    sendBtn.disabled = true;
+    form.style.display = "none";
   });
 
 });
