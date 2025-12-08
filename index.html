@@ -509,13 +509,9 @@ document.addEventListener('DOMContentLoaded', () => {
         resetTimer(group);
       });
       group.addEventListener('mouseleave', () => {
-        // small delay so user can move to input without immediate hide
-        // only hide if input not focused
-        setTimeout(()=>{
-          if (document.activeElement !== input) hideFormFor(group);
-        }, 120);
-        clearTimeout(timers.get(group));
+        resetTimer(group); // follow the 2 sec rule
       });
+
     }
 
     // Click / touch → toggle (mobile & desktop click)
