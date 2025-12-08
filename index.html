@@ -284,54 +284,24 @@ footer{
 
 /* Mobile layout: side-by-side buttons */
 @media (max-width: 700px) {
-  header {
-    display: flex;
-    flex-direction: column;  /* stack top row and button row */
-    gap: 12px;
-    padding: 12px;
-  }
-
-  /* Top row: logo + text side by side */
-  .header-top {
-    display: flex;
-    justify-content: space-between; /* logo left, text right */
-    align-items: flex-start;
-    width: 100%;
-    gap: 12px;
-  }
-
-  .header-left {
-    flex-shrink: 0;          /* keep logo size fixed */
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .header-center {
-    flex: 1;                 /* take remaining space */
-    text-align: left;
-    align-items: flex-start;
-  }
-
-  /* Bottom row: buttons */
   .header-buttons {
-    display: flex;
-    justify-content: space-between; /* first button left, second right */
+    flex-direction: row;           /* horizontal layout */
+    justify-content: flex-start;   /* push to left */
     width: 100%;
     gap: 8px;
   }
 
   .btn-group {
-    flex: 0 1 auto;           /* shrink to content width */
+    flex: 0 1 auto;                /* shrink to content width */
   }
 
   .header-btn {
-    white-space: nowrap;      /* keep button in one line */
-    width: auto;
-    font-size: 13px;
-    padding: 8px 10px;
+    width: auto;                   /* don't fill container */
+    white-space: nowrap;           /* force one line */
+    font-size: 13px;               /* optional: slightly smaller if needed */
+    padding: 8px 10px;             /* keep oval shape */
   }
 }
-
 
   .inputForm {
     width: 100%;                   /* form fills button space */
@@ -354,47 +324,54 @@ footer{
 <body>
 
 <header>
-  <div class="header-top">
-    <div class="header-left">
-      <div class="logo"><img src="logo/l.JPG" alt="MS logo"></div>
-      <div class="tagline">Transforming Brides<br>to their dream selves</div>
-    </div>
 
-    <div class="header-center">
-      <h1>MS Bridal Make-up Artist • Pune</h1>
-      <p>पुण्यातील परवडणाऱ्या वधूंचा मेकअप</p>
-      <p>Bridal | Hair-Style | Saree Drape</p>
-      <p>Engagement | Sangeet | Reception | Mehendi</p>
-    </div>
+  <!-- left: logo + tagline -->
+  <div class="header-left">
+    <div class="logo"><img src="logo/l.JPG" alt="MS logo"></div>
+    <div class="tagline">Transforming Brides<br>to their dream selves</div>
   </div>
 
+  <!-- center: merged header content -->
+  <div class="header-center">
+    <h1>MS Bridal Make-up Artist • Pune</h1>
+    <p>पुण्यातील परवडणाऱ्या वधूंचा मेकअप</p>
+    <p>Bridal | Hair-Style | Saree Drape</p>
+    <p>Engagement | Sangeet | Reception | Mehendi</p>
+  </div>
+
+  <!-- right: header buttons -->
   <div class="header-buttons" aria-hidden="false">
-    <div class="btn-group trial" data-type="trial">
-      <div class="swap">
+
+    <div class="btn-group trial" data-type="trial" aria-label="Bridal trial">
+      <div class="swap" aria-expanded="false">
         <div class="swap-inner">
-          <button class="header-btn">Bridal trial @ just 1,000/-</button>
-          <div class="inputForm">
-            <input class="mobileInput" placeholder="Mobile Number">
-            <button class="sendBtn" disabled>Send</button>
+          <!-- Button visible by default -->
+          <button class="header-btn" type="button" aria-expanded="false">Bridal trial @ just 1,000/-</button>
+
+          <!-- Form hidden by default inside swap -->
+          <div class="inputForm" aria-hidden="true">
+            <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for trial">
+            <button class="sendBtn" type="button" disabled>Send</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="btn-group enquiry" data-type="enquiry">
-      <div class="swap">
+    <div class="btn-group enquiry" data-type="enquiry" aria-label="Connect to makeup artist">
+      <div class="swap" aria-expanded="false">
         <div class="swap-inner">
-          <button class="header-btn">Connect to Makeup Artist</button>
-          <div class="inputForm">
-            <input class="mobileInput" placeholder="Mobile Number">
-            <button class="sendBtn" disabled>Send</button>
+          <button class="header-btn" type="button" aria-expanded="false">Connect to Makeup Artist</button>
+
+          <div class="inputForm" aria-hidden="true">
+            <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for enquiry">
+            <button class="sendBtn" type="button" disabled>Send</button>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </header>
-
 
 <!-- PAGE CONTENT (gallery, footer, etc.) -->
 <div class="page">
