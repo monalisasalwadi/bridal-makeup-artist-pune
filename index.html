@@ -485,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function resetTimer(group){
     clearTimeout(timers.get(group));
-    const t = setTimeout(()=> hideFormFor(group), 10000);
+    const t = setTimeout(()=> hideFormFor(group), 2000);
     timers.set(group, t);
   }
 
