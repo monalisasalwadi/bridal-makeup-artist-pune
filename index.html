@@ -109,9 +109,30 @@ header{
 /* Button visible by default */
 .header-btn {
   display: inline-flex;
-  width: 100%;
   justify-content: center;
   align-items: center;
+  padding: 8px 12px;          /* match input + send padding */
+  border-radius: 16px;        /* same as input/send */
+  background: #bf902b;        /* gold background */
+  color: #ffffff;             /* white text */
+  font-weight: bold;
+  font-size: 13px;
+  border: 2px solid transparent;  /* will show gold outline on focus */
+  cursor: pointer;
+  width: 100%;                /* match input form width */
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.header-btn:focus {
+  outline: none;
+  box-shadow: 0 0 8px 2px #bf902b; /* glowing gold */
+}
+
+/* Optional hover effect */
+.header-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 /* Form hidden by default */
