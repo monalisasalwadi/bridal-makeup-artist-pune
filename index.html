@@ -10,28 +10,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Armata&display=swap" rel="stylesheet">
 
 <style>
-:root{
+:root {
   --accent-black:#000000;
   --black:#000000;
   --card-radius:12px;
   --flip-duration:0.9s;
 }
 
-*{box-sizing:border-box;}
+* { box-sizing:border-box; }
 
-body{
+body {
   margin:0;
   font-family: sans-serif;
-  background: #000000;
+  background:#000000;
   color:#bf902b;
 }
 
 /* ---------------- HEADER ---------------- */
 header {
-  background: #000;
+  background: #000000 !important;
   padding: 20px 15px 15px;
   display: grid;
-  grid-template-columns: auto 1fr 1fr auto; /* 4 columns */
+  grid-template-columns: 1fr 2fr 1fr; /* middle section merged */
   align-items: center;
   max-width: 1400px;
   position: fixed;
@@ -43,68 +43,89 @@ header {
   z-index: 999;
 }
 
-/* Merge 2nd + 3rd columns */
-.span2 {
-  grid-column: 2 / span 2;
-  text-align: center;
+/* Left column */
+.header-left {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo {
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  overflow:hidden;
+  margin-bottom:8px;
+}
+
+.logo img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.header-left .tagline {
+  font-family:'Armata',sans-serif;
+  font-size:12px;
+  font-weight:bold;
+  text-align:center;
+  line-height:1.4;
+}
+
+/* Middle: merged 2nd + 3rd column */
+.header-center {
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-weight:bold;
 }
 
 .header-center h1 {
-  font-family: 'Lobster', cursive;
-  margin: 0;
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: #bf902b;
+  font-family:'Lobster',cursive;
+  margin:0;
+  font-size:40px;
+  font-weight:700;
+  line-height:1.2;
 }
 
 .header-center p {
-  margin: 4px 0;
-  font-family: 'Armata', sans-serif;
-  font-size: 16px;
-  color: #bf902b;
-  font-weight: bold;
+  margin:4px 0 0;
+  font-family:'Armata',sans-serif;
+  font-size:16px;
+  color:#bf902b;
+  font-weight:bold;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  header {
-    grid-template-columns: 1fr 1fr;
-    padding: 10px;
-  }
-
-  .span2 {
-    grid-column: span 2;
-  }
-
-  .header-center h1 {
-    font-size: 22px;
-  }
-
-  .header-center p {
-    font-size: 12px;
-  }
-
-  .page {
-    margin-top: 120px;
-  }
+/* Right column = nothing or optional image */
+.header-right {
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
+.header-img {
+  max-width:90px;
+  display:block;
+  filter:drop-shadow(0 0 6px #bf902b) drop-shadow(0 0 12px #bf902b);
+}
 
-/* --------------- GALLERY ---------------- */
-.page{
+/* ---------------- PAGE ---------------- */
+.page {
   max-width:1400px;
   margin:150px auto 20px;
   padding:12px;
 }
 
-.gallery-container{
+/* ---------------- GALLERY ---------------- */
+.gallery-container {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
   gap:20px;
 }
 
-.gallery-box{
+.gallery-box {
   width:100%;
   aspect-ratio:3/5;
   min-height:280px;
@@ -113,43 +134,11 @@ header {
   overflow:hidden;
   background:#000;
   perspective:1600px;
+  cursor:pointer;
 }
 
-.gallery-bg{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:5;
-  filter:brightness(0.95);
-}
-
-.gallery-inner{
-  position:absolute;
-  inset:0;
-  z-index:20;
-  transform-style:preserve-3d;
-  transition: transform var(--flip-duration) ease;
-}
-.gallery-inner.flipped{
-  transform:rotateY(180deg);
-}
-
-.gallery-face{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  backface-visibility:hidden;
-  object-fit:cover;
-  border-radius:inherit;
-}
-
-.gallery-back{
-  transform:rotateY(180deg);
-}
-
+.gallery-bg,
+.gallery-face,
 .auto-video {
   position:absolute;
   inset:0;
@@ -159,290 +148,151 @@ header {
   border-radius:inherit;
 }
 
-/* --------------- FOOTER ---------------- */
-footer{
+.gallery-inner {
+  position:absolute;
+  inset:0;
+  transform-style:preserve-3d;
+  transition:transform var(--flip-duration) ease;
+}
+
+.gallery-inner.flipped {
+  transform:rotateY(180deg);
+}
+
+.gallery-face {
+  backface-visibility:hidden;
+}
+
+.gallery-back {
+  transform:rotateY(180deg);
+}
+
+/* ---------------- FOOTER ---------------- */
+footer {
   margin:20px auto 10px;
   max-width:1400px;
   padding:18px;
   display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:15px;
 }
 
-.footer-card{
-  background:#000000;
-  border:0.5px solid #bf902b;
+.footer-card {
+  background:#000;
   border-radius:0;
+  box-shadow:none;
+  border:0.5px solid #bf902b;
+  display:flex;
+  flex-direction:column;
 }
 
-.footer-header{
-  background:linear-gradient(180deg, rgba(191, 144, 43, 1),rgba(150, 110, 33, 1));
+.footer-header {
+  background:linear-gradient(180deg,rgba(191,144,43,1),rgba(150,110,33,1));
   padding:12px;
   text-align:center;
+  font-family:'Armata',sans-serif;
   font-size:18px;
-  font-family: 'Armata', sans-serif;
   font-weight:700;
   color:#fff;
 }
 
-.footer-content{
+.footer-content {
   padding:14px 16px;
+  font-family:'Armata',sans-serif;
   font-size:14px;
-  font-family: 'Armata', sans-serif;
+  font-weight:bold;
   line-height:1.5;
-  font-weight: bold;
 }
 
 .footer-content p {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  margin: 4px 0;
+  display:flex;
+  align-items:center;
+  margin:4px 0;
 }
 
-.video-grid{
+/* ---------------- BUTTON GROUPS (HEADER ONLY) ---------------- */
+.btn-group {
   display:flex;
   flex-direction:column;
-  gap:10px;
-}
-
-.video-grid video{
-  width:100%;
-  border-radius:10px;
-}
-
-/* ------------------------------------
-   FLOATING BUTTONS (CLEANED & FIXED)
------------------------------------- */
-.floating-buttons {
-  position: fixed;
-  top: 70px;       /* stays under header */
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  z-index: 9999;
+  align-items:center;
+  width:220px;
 }
 
 .float-btn {
-  background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
-  color: #ffffff;
-  padding: 12px 22px;
-  border-radius: 30px;
-  font-weight: bold;
-  font-family: 'Armata', sans-serif;
-  font-size: 16px;
-  opacity: 0.5;
-  transition: opacity 0.3s ease, transform 0.2s ease;
+  background:linear-gradient(180deg,rgba(191,144,43,1),rgba(150,110,33,1));
+  color:#fff;
+  padding:10px 20px;
+  border-radius:30px;
+  font-family:'Armata',sans-serif;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  white-space:nowrap;
 }
 
-.float-btn:hover {
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-.btn-group {
-  position: relative;
-  width: 240px;
-}
-
-/* Show input BELOW the floating button (not overlapping) */
+/* Hidden input form */
 .inputForm {
-  display: none;
-  position: absolute;
-  top: 110%;       /* BELOW the button */
-  left: 0;
-  width: 100%;
-  gap: 8px;
-  align-items: center;
-  z-index: 99999;  /* keep above everything */
+  display:none;
+  margin-top:8px;
+  width:100%;
+  display:flex;
+  gap:8px;
 }
-
 
 .mobileInput {
-  padding: 8px 12px;
-  border-radius: 20px;
-  border: 1px solid #ffffff;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  flex: 1;
-  font-size: 14px;
+  flex:1;
+  padding:8px 12px;
+  border-radius:20px;
+  border:1px solid #fff;
+  font-size:14px;
 }
 
 .sendBtn {
-  padding: 8px 14px;
-  border-radius: 20px;
-  background: #bf902b;
-  border: none;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  opacity: 0.5;
-  flex-shrink: 0;
+  padding:8px 14px;
+  border-radius:20px;
+  border:none;
+  background:#bf902b;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  opacity:0.7;
 }
 
 .sendBtn:enabled {
-  opacity: 1;
+  opacity:1;
 }
 
-/* Special input colors */
+/* Theme colors */
 .btn-group.trial .mobileInput {
-  background: rgba(0, 97, 13, 0.95);
-  border: 1px solid #00aa00;
+  background:rgba(0,97,13,0.95);
+  border:1px solid #00aa00;
 }
 
 .btn-group.whatsapp .mobileInput {
-  background: rgba(0, 0, 134, 0.95);
-  border: 1px solid #0000aa;
+  background:rgba(0,0,134,0.95);
+  border:1px solid #0000aa;
 }
 
-/* ------------------------------------
-   MOBILE HEADER FIX
------------------------------------- */
-@media (max-width: 600px) {
+/* ---------------- MOBILE ADJUSTMENTS ---------------- */
+@media (max-width:600px) {
 
   header {
-    grid-template-columns: 1fr 1fr;
-    padding: 10px;
+    grid-template-columns:1fr 1fr;
+    padding:12px;
   }
 
-  .logo {
-    width: 58px;
-    height: 58px;
-  }
+  .header-center h1 { font-size:24px; }
+  .header-center p { font-size:12px; }
 
-  .header-right h1 {
-    font-size: 22px;
-  }
+  .logo { width:58px; height:58px; }
 
-  .header-right p {
-    font-size: 12px;
-  }
+  .page { margin-top:120px; }
 
-  .page {
-    margin-top: 120px !important;
-  }
+  .btn-group { width:180px; }
+  .float-btn { font-size:12px; padding:8px 14px; }
+  .mobileInput, .sendBtn { font-size:12px; padding:6px 10px; }
 }
 
-/* ------------------------------------
-   MOBILE FLOATING BUTTON FIX
------------------------------------- */
-@media (max-width: 600px) {
-
-  .floating-buttons {
-    right: 10px;
-    top: 70px;
-    gap: 12px;
-  }
-
-  .btn-group {
-    width: 85vw;
-    max-width: 280px;
-    min-width: 180px;
-  }
-
-  .float-btn {
-    padding: 10px 16px;
-    font-size: 14px;
-  }
-
-  .mobileInput {
-    padding: 6px 10px;
-    font-size: 12px;
-    min-width: 0;
-  }
-
-  .sendBtn {
-    padding: 6px 10px;
-    font-size: 12px;
-  }
-}
-
-/* Prevent floating buttons from jumping when keyboard opens */
-.floating-buttons.keyboard-open {
-  top: 70px !important;
-}
-
-/* HEADER BUTTON SECTION */
-.header-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-end;
-}
-
-.header-btn {
-  background: linear-gradient(180deg, rgba(191,144,43,1), rgba(150,110,33,1));
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 22px;
-  font-family: 'Armata', sans-serif;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  opacity: 0.85;
-}
-
-.header-btn:hover {
-  opacity: 1;
-}
-
-.btn-group {
-  position: relative;
-  width: 100%;
-  max-width: 260px;
-}
-
-.inputForm {
-  display: none;
-  margin-top: 6px;
-  width: 100%;
-  display: flex;
-  gap: 6px;
-}
-
-.mobileInput {
-  flex: 1;
-  padding: 6px 10px;
-  border-radius: 20px;
-  border: 1px solid #fff;
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  font-size: 12px;
-}
-
-.sendBtn {
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: #bf902b;
-  border: none;
-  color: #fff;
-  font-weight: bold;
-  opacity: 0.5;
-}
-
-.sendBtn:enabled {
-  opacity: 1;
-}
-
-@media(max-width:600px){
-  header {
-    grid-template-columns: 1fr 1fr;
-  }
-  .header-buttons {
-    grid-column: span 2;
-    align-items: center;
-    margin-top: 10px;
-  }
-}
-
-/* Desktop indentation for send button */
-@media (min-width: 601px) {
-  .sendBtn {
-    transform: translateX(-10px);
-  }
-}
- 
   
 </style>
 </head>
