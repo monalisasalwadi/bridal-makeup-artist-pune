@@ -448,7 +448,7 @@ footer{
 
 <!-- ---------------- SCRIPTS ---------------- -->
 <script>
-// ---------------- Gallery flip (kept as original behavior) ----------------
+// ---------------- Gallery flip ----------------
 const folders = {
   gallery1: ['m1.jpg','m2.jpg','m3.jpg','m4.jpg','m5.jpg','m6.jpg','m7.jpg','m8.jpg','m9.jpg','m10.jpg','m11.jpg','m12.jpg','m13.jpg'],
   gallery2: ['n1.jpg','n2.jpg','n3.jpg','n4.jpg','n5.jpg','n6.jpg','n7.jpg','n8.jpg','n9.jpg','n10.jpg','n11.jpg','n12.jpg','n13.jpg'],
@@ -471,6 +471,7 @@ function setupGallery(gid,bgid,folder,files){
   front.src = folder + files[idxFront];
   back.src  = folder + files[idxBack];
   bgEl.src  = front.src;
+  
   function flip(){
     const nextIdx = getRandomIndex(files.length);
     const hidden = flipped ? front : back;
@@ -514,189 +515,77 @@ function setupAutoGalleryVideo(videoId, fileCount, prefix){
 setupAutoGalleryVideo("autoVideo1", 6, "a");
 setupAutoGalleryVideo("autoVideo2", 5, "b");
 
-// ---------------- Header button behavior (height-swap animation) ----------------
+// ---------------- Header button behavior ----------------
 document.addEventListener('DOMContentLoaded', () => {
-
-  // detect hover-capable devices (desktop)
-  const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  // helper to show/hide form for a group
-  function showFormFor(group){
-    // close others
-    document.querySelectorAll('.btn-group').forEach(g => {
-      if (g !== group) hideFormFor(g);
-    });
-
-    const swap = group.querySelector('.swap');
+  document.querySelectorAll('.btn-group').forEach(group => {
+    const btn = group.querySelector('.header-btn');
     const form = group.querySelector('.inputForm');
-    const btn  = group.querySelector('.header-btn');
+    const input = form.querySelector('.mobileInput');
+    const send = form.querySelector('.sendBtn');
+    let hideTimer;
 
-    // open swap (this animates max-height)
-    swap.classList.add('open');
-    swap.setAttribute('aria-expanded','true');
-    form.setAttribute('aria-hidden','false');
-    btn.setAttribute('aria-expanded','true');
+    // Show form in-place
+    function showForm(){
+      group.classList.add('active');
+      input.focus();
+      clearTimeout(hideTimer);
+    }
 
-    // focus the input after animation start (small delay to allow visible change and mobile keyboard)
-    setTimeout(()=> {
-      const input = form.querySelector('.mobileInput');
-      input && input.focus();
-    }, 180);
-  }
-
-  function hideFormFor(group){
-    const swap = group.querySelector('.swap');
-    const form = group.querySelector('.inputForm');
-    const btn  = group.querySelector('.header-btn');
-
-    swap.classList.remove('open');
-    swap.setAttribute('aria-expanded','false');
-    form.setAttribute('aria-hidden','true');
-    btn.setAttribute('aria-expanded','false');
-
-    // clear input after closing animation to avoid flash
-    setTimeout(()=> {
-      const input = form.querySelector('.mobileInput');
-      const send = form.querySelector('.sendBtn');
-      if (input) input.value = '';
-      if (send) send.disabled = true;
-    }, 340);
-  }
-
-  // auto-hide timer per group
-  const timers = new WeakMap();
-  function resetTimer(group){
-    clearTimeout(timers.get(group));
-    const t = setTimeout(()=> hideFormFor(group), 2000);
-    timers.set(group, t);
-  }
-
-  // attach handlers for each group
-document.querySelectorAll('.btn-group').forEach(group => {
-  const btn = group.querySelector('.header-btn');
-  const form = group.querySelector('.inputForm');
-  const input = form.querySelector('.mobileInput');
-  const send = form.querySelector('.sendBtn');
-
-  btn.addEventListener('click', () => {
-    group.classList.add('active'); // show form, hide button
-    input.focus();
-  });
-
-  // auto-hide when input loses focus (optional)
-  input.addEventListener('blur', () => {
-    setTimeout(() => {
-      group.classList.remove('active'); // hide form, show button
+    // Hide form, show button
+    function hideForm(){
+      group.classList.remove('active');
       input.value = '';
       send.disabled = true;
-    }, 200);
-  });
+      clearTimeout(hideTimer);
+    }
 
-  // enable send button only when 10 digits entered
-  input.addEventListener('input', () => {
-    input.value = input.value.replace(/\D/g,'').slice(0,10);
-    send.disabled = input.value.length !== 10;
-  });
+    // Auto-hide after delay
+    function resetTimer(){
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(hideForm, 4000); // 4 sec
+    }
 
-  // Send action
-  send.addEventListener('click', () => {
-    const mobile = input.value.trim();
-    if (mobile.length !== 10) return;
-    const type = group.dataset.type;
+    // Click or touch → toggle
+    btn.addEventListener('click', showForm);
+    btn.addEventListener('touchstart', e => { e.preventDefault(); showForm(); }, {passive:false});
 
-    send.disabled = true;
-    send.textContent = 'Sending...';
-
-    fetch(`https://monasalwadi.pythonanywhere.com/send?mobile=${encodeURIComponent(mobile)}&type=${encodeURIComponent(type)}`)
-      .then(resp => resp.json())
-      .then(json => {
-        alert(json.status === 'ok' ? "Message received!" : "Server error!");
-        group.classList.remove('active');
-        input.value = '';
-        send.disabled = true;
-        send.textContent = 'Send';
-      })
-      .catch(() => {
-        alert("Network error!");
-        send.disabled = false;
-        send.textContent = 'Send';
-      });
-  });
-});
-
-    // Click / touch → toggle (mobile & desktop click)
-    const openOnPointer = (ev) => {
-      // Prevent default behavior on touchstart elsewhere; allow normal click
-      // If form is currently visible, close it; else open it.
-      if (form.getAttribute('aria-hidden') === 'false'){
-        hideFormFor(group);
-      } else {
-        showFormFor(group);
-        resetTimer(group);
-      }
-      // prevent double focus on touchstart
-      ev.preventDefault && ev.preventDefault();
-    };
-
-    // Use touchstart for snappy mobile activation, but also support click
-    btn.addEventListener('click', openOnPointer);
-    btn.addEventListener('touchstart', (e) => {
-      // prevent double activation on some devices
-      e.preventDefault();
-      openOnPointer(e);
-    }, {passive:false});
-
-    // Input events: validate numeric
+    // Input validation
     input.addEventListener('input', () => {
-      input.value = input.value.replace(/\D/g,'').slice(0,10); // digits only, max 10
-      send.disabled = input.value.trim().length !== 10;
-      resetTimer(group);
+      input.value = input.value.replace(/\D/g,'').slice(0,10);
+      send.disabled = input.value.length !== 10;
+      resetTimer();
     });
 
-    input.addEventListener('focus', () => {
-      resetTimer(group);
-    });
+    // Auto-hide on blur
+    input.addEventListener('blur', resetTimer);
+    input.addEventListener('focus', resetTimer);
 
-    input.addEventListener('blur', () => {
-      // keep it open shortly to avoid keyboard flicker; we'll auto-hide with timer
-      resetTimer(group);
-    });
-
-    // Send action (real API)
+    // Send action
     send.addEventListener('click', () => {
       const mobile = input.value.trim();
       if (mobile.length !== 10) return;
-      const msgType = group.dataset.type || 'unknown';
 
-      // disable UI while sending
       send.disabled = true;
       send.textContent = 'Sending...';
+      const type = group.dataset.type;
 
-      fetch("https://monasalwadi.pythonanywhere.com/send?mobile=" + encodeURIComponent(mobile) + "&type=" + encodeURIComponent(msgType))
+      fetch(`https://monasalwadi.pythonanywhere.com/send?mobile=${encodeURIComponent(mobile)}&type=${encodeURIComponent(type)}`)
         .then(resp => resp.json())
         .then(json => {
-          if (json && json.status === 'ok') {
-            alert("Thank you — we received your message. We'll call you back soon.");
-            hideFormFor(group);
-          } else {
-            alert("Server error, please try again.");
-            send.disabled = false;
-            send.textContent = 'Send';
-          }
-        })
-        .catch(() => {
-          alert("Network error — please try again.");
-          send.disabled = false;
+          alert(json.status === 'ok' ? "Thank you! We'll call you soon." : "Server error, try again.");
+          hideForm();
           send.textContent = 'Send';
         })
-        .finally(() => {
-          // restore button label if still visible
-          setTimeout(()=> send.textContent = 'Send', 600);
+        .catch(() => {
+          alert("Network error, try again.");
+          send.disabled = false;
+          send.textContent = 'Send';
         });
     });
-
-  }); // end .btn-group loop
+  });
 });
+
+
 </script>
 </body>
 </html>
