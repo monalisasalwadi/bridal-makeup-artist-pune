@@ -447,35 +447,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // helper to show/hide form for a group
   function showFormFor(group){
-    // hide others
     document.querySelectorAll('.btn-group').forEach(g => {
       if (g !== group){
-        const otherForm = g.querySelector('.inputForm');
-        const otherBtn = g.querySelector('.header-btn');
-        otherForm.style.display = 'none';
-        otherBtn.setAttribute('aria-expanded','false');
+        hideFormFor(g);
       }
     });
+  
     const form = group.querySelector('.inputForm');
     const btn  = group.querySelector('.header-btn');
-    form.style.display = 'flex';
+  
+    btn.style.display = "none";       // HIDE BUTTON
+    form.style.display = 'flex';      // SHOW FORM
     form.setAttribute('aria-hidden','false');
     btn.setAttribute('aria-expanded','true');
+  
     const input = form.querySelector('.mobileInput');
-    // small timeout helps mobile browsers open keyboard reliably
     setTimeout(()=> input.focus(), 160);
   }
+
   function hideFormFor(group){
     const form = group.querySelector('.inputForm');
     const btn  = group.querySelector('.header-btn');
-    form.style.display = 'none';
+  
+    form.style.display = 'none';     // HIDE FORM
+    btn.style.display = "inline-flex"; // SHOW BUTTON BACK
     form.setAttribute('aria-hidden','true');
     btn.setAttribute('aria-expanded','false');
+  
     const input = form.querySelector('.mobileInput');
     input.value = '';
     const send = form.querySelector('.sendBtn');
     send.disabled = true;
   }
+
 
   // auto-hide timer per group
   const timers = new WeakMap();
