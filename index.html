@@ -279,46 +279,72 @@ footer{
   margin: 10px 0;
 }
 
-/* GOLD METALLIC BUTTONS */
+/* TRUE METALLIC-GOLD STAINLESS STEEL BUTTON */
 .header-btn {
   background: linear-gradient(
-      135deg,
-      #f7e8a1 0%,
-      #f4d879 12%,
-      #d9b455 25%,
-      #bf902b 40%,
-      #a6771f 55%,
-      #d6b057 72%,
-      #f4d879 88%,
-      #f7e8a1 100%
+      160deg,
+      #fff6d6 0%,
+      #f7e28f 8%,
+      #dfb85c 18%,
+      #b88a28 30%,
+      #8d6417 45%,
+      #b88a28 58%,
+      #dfb85c 70%,
+      #f7e28f 82%,
+      #fff6d6 100%
   );
-  border: 2px solid #d8b35a;
-  color: #000;
+  border: 1.8px solid #c8a14a;
+  color: #2a1b00;
   font-weight: 700;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+
+  /* metallic feel */
   box-shadow:
-      inset 0 1px 2px rgba(255,255,255,0.7),
-      inset 0 -1px 2px rgba(0,0,0,0.25),
-      0 2px 4px rgba(0,0,0,0.5);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    inset 0 2px 3px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.25),
+    0 4px 12px rgba(0,0,0,0.7),
+    0 0 10px rgba(255,215,120,0.3);
+
+  transition: 0.2s ease;
 }
 
-/* Metallic shine on hover */
+/* SHINY WHITE HIGHLIGHT */
+.header-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 45%;
+  border-radius: inherit;
+  background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.75),
+      rgba(255,255,255,0.1)
+  );
+  pointer-events: none;
+}
+
+/* hover = more glossy + reflection pop */
 .header-btn:hover {
   transform: translateY(-2px);
   box-shadow:
-      inset 0 1px 2px rgba(255,255,255,0.8),
-      inset 0 -2px 3px rgba(0,0,0,0.3),
-      0 4px 8px rgba(0,0,0,0.6);
-  cursor: pointer;
+    inset 0 2px 3px rgba(255,255,255,1),
+    inset 0 -3px 5px rgba(0,0,0,0.35),
+    0 6px 15px rgba(0,0,0,0.8),
+    0 0 12px rgba(255,220,130,0.4);
 }
 
-/* Active / clicked press effect */
+/* Pressed (matte) */
 .header-btn:active {
   transform: translateY(1px);
   box-shadow:
-      inset 0 0 4px rgba(0,0,0,0.4),
-      0 1px 2px rgba(0,0,0,0.5);
+    inset 0 0 8px rgba(0,0,0,0.45),
+    0 2px 5px rgba(0,0,0,0.6);
 }
+
 
   
 </style>
