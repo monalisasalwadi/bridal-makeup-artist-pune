@@ -300,64 +300,29 @@ footer{
   padding: 12px 20px;
 }
 
-/* gold gradient border using pseudo-element */
-.header-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 3px;
-  background: linear-gradient(140deg,
-      #fff7d1,
-      #f5d277,
-      #e0b047,
-      #b9851e,
-      #e0b047,
-      #f5d277
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  pointer-events: none;
-}
-
-/* shiny hotspots */
-.header-btn::after {
-  content: "";
-  position: absolute;
-  width: 45%;
-  height: 45%;
-  top: -5%;
-  left: -5%;
-  background: radial-gradient(
-      circle,
-      rgba(255,255,255,0.9),
-      rgba(255,255,255,0) 70%
-  );
-  transform: rotate(1deg);
-  pointer-events: none;
-}
-
 .header-btn {
+  background: rgba(255, 255, 255, 0.08); /* glassy center */
+  backdrop-filter: blur(6px);
+  border-radius: 18px;
+
+  /* true gold border */
+  border: 3px solid transparent;
+  background-clip: padding-box;
+
   position: relative;
-  overflow: visible; /* important for glow */
+  overflow: visible; /* keep this */
+
+  /* gold glow around button */
+  box-shadow:
+    0 0 15px rgba(255, 205, 80, 0.7),
+    0 0 25px rgba(255, 215, 120, 0.5),
+    inset 0 0 8px rgba(255, 220, 150, 0.4);
+
+  color: #bf902b;
+  font-weight: 700;
+  padding: 12px 20px;
 }
 
-.shine-br {
-  position: absolute;
-  width: 45%;
-  height: 45%;
-  bottom: -5%;
-  right: -5%;
-  background: radial-gradient(circle,
-      rgba(255,255,255,0.9),
-      rgba(255,255,255,0) 70%
-  );
-  pointer-events: none;
-  z-index: 3;
-}
 
 
 
