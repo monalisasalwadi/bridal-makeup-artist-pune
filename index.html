@@ -279,6 +279,46 @@ footer{
   margin: 10px 0;
 }
 
+/* GOLD METALLIC BUTTONS */
+.header-btn {
+  background: linear-gradient(
+      135deg,
+      #f7e8a1 0%,
+      #f4d879 12%,
+      #d9b455 25%,
+      #bf902b 40%,
+      #a6771f 55%,
+      #d6b057 72%,
+      #f4d879 88%,
+      #f7e8a1 100%
+  );
+  border: 2px solid #d8b35a;
+  color: #000;
+  font-weight: 700;
+  box-shadow:
+      inset 0 1px 2px rgba(255,255,255,0.7),
+      inset 0 -1px 2px rgba(0,0,0,0.25),
+      0 2px 4px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Metallic shine on hover */
+.header-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+      inset 0 1px 2px rgba(255,255,255,0.8),
+      inset 0 -2px 3px rgba(0,0,0,0.3),
+      0 4px 8px rgba(0,0,0,0.6);
+  cursor: pointer;
+}
+
+/* Active / clicked press effect */
+.header-btn:active {
+  transform: translateY(1px);
+  box-shadow:
+      inset 0 0 4px rgba(0,0,0,0.4),
+      0 1px 2px rgba(0,0,0,0.5);
+}
 
   
 </style>
