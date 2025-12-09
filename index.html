@@ -340,21 +340,25 @@ footer{
   pointer-events: none;
 }
 
-.header-btn::before {
-  content: "";
+.header-btn {
+  position: relative;
+  overflow: visible; /* important for glow */
+}
+
+.shine-br {
   position: absolute;
   width: 45%;
   height: 45%;
-  bottom: 0%;
-  right: 0%;
-  background: radial-gradient(
-      circle,
+  bottom: -5%;
+  right: -5%;
+  background: radial-gradient(circle,
       rgba(255,255,255,0.9),
       rgba(255,255,255,0) 70%
   );
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
 }
+
 
 
 .indent {
@@ -386,7 +390,7 @@ footer{
   <div class="btn-group trial" data-type="trial" aria-label="Bridal trial">
     <div class="swap" aria-expanded="false">
       <div class="swap-inner">
-        <button class="header-btn" type="button" aria-expanded="false">Bridal trial @ just 1,000/-</button>
+        <button class="header-btn" type="button" aria-expanded="false">Bridal trial @ just 1,000/-<span class="shine-br"></span></button>
         <div class="inputForm" aria-hidden="true">
           <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for trial">
           <button class="sendBtn" type="button" disabled>Send</button>
@@ -398,7 +402,7 @@ footer{
   <div class="btn-group enquiry" data-type="enquiry" aria-label="Connect to makeup artist">
     <div class="swap" aria-expanded="false">
       <div class="swap-inner">
-        <button class="header-btn" type="button" aria-expanded="false">Connect to Makeup Artist</button>
+        <button class="header-btn" type="button" aria-expanded="false">Connect to Makeup Artist<span class="shine-br"></span></button>
         <div class="inputForm" aria-hidden="true">
           <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for enquiry">
           <button class="sendBtn" type="button" disabled>Send</button>
