@@ -357,6 +357,15 @@ footer{
     </div>
 
     <div class="gallery-box">
+      <img class="gallery-bg" id="bg4" alt="">
+      <div class="gallery-inner" id="g4">
+        <img class="gallery-face gallery-front" alt="">
+        <img class="gallery-face gallery-back" alt="">
+      </div>
+    </div>
+
+    
+    <div class="gallery-box">
       <video class="auto-video" id="autoVideo1" muted playsinline></video>
     </div>
 
@@ -486,9 +495,10 @@ footer{
 const folders = {
   gallery1: ['m1.jpg','m2.jpg','m3.jpg','m4.jpg','m5.jpg','m6.jpg','m7.jpg','m8.jpg','m9.jpg','m10.jpg','m11.jpg','m12.jpg','m13.jpg'],
   gallery2: ['n1.jpg','n2.jpg','n3.jpg','n4.jpg','n5.jpg','n6.jpg','n7.jpg','n8.jpg','n9.jpg','n10.jpg','n11.jpg','n12.jpg','n13.jpg'],
-  gallery3: ['s1.jpg','s2.jpg','s3.jpg','s4.jpg','s5.jpg','s6.jpg','s7.jpg','s8.jpg','s9.jpg','s10.jpg','s11.jpg','s12.jpg','s13.jpg']
+  gallery3: ['s1.jpg','s2.jpg','s3.jpg','s4.jpg','s5.jpg','s6.jpg','s7.jpg','s8.jpg','s9.jpg','s10.jpg','s11.jpg','s12.jpg','s13.jpg'],
+  gallery4: ['h1.jpg','h2.jpg','h3.jpg','h4.jpg','h5.jpg','h6.jpg','h7.jpg','h8.jpg','h9.jpg','h10.jpg','h11.jpg','h12.jpg','h13.jpg']
 };
-const paths = ["gallery1/","gallery2/","gallery3/"];
+const paths = ["gallery1/","gallery2/","gallery3/","gallery4/"];
 
 function getRandomIndex(len){ return Math.floor(Math.random()*len); }
 function preload(src, cb){ const img=new Image(); img.onload=()=>cb(null,src); img.onerror=()=>cb(new Error('fail')); img.src=src; }
@@ -523,7 +533,8 @@ function setupGallery(gid,bgid,folder,files){
 const flip1 = setupGallery('g1','bg1',paths[0],folders.gallery1);
 const flip2 = setupGallery('g2','bg2',paths[1],folders.gallery2);
 const flip3 = setupGallery('g3','bg3',paths[2],folders.gallery3);
-const sequence = [flip1, flip3, flip2];
+const flip4 = setupGallery('g4','bg4',paths[3],folders.gallery4);
+const sequence = [flip1, flip3, flip4, flip2];
 let seqIndex = 0;
 function runSequence(){
   sequence[seqIndex]();
