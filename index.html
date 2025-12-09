@@ -279,71 +279,68 @@ footer{
   margin: 10px 0;
 }
 
-/* TRUE METALLIC-GOLD STAINLESS STEEL BUTTON */
-.header-btn {
-  background: linear-gradient(
-      160deg,
-      #fff6d6 0%,
-      #f7e28f 8%,
-      #dfb85c 18%,
-      #b88a28 30%,
-      #8d6417 45%,
-      #b88a28 58%,
-      #dfb85c 70%,
-      #f7e28f 82%,
-      #fff6d6 100%
-  );
-  border: 1.8px solid #c8a14a;
-  color: #2a1b00;
-  font-weight: 700;
-  border-radius: 16px;
+  .header-btn {
+  background: rgba(255, 255, 255, 0.08); /* glassy center */
+  backdrop-filter: blur(6px);
+  border-radius: 18px;
+
+  /* true gold border */
+  border: 3px solid transparent;
+  background-clip: padding-box;
   position: relative;
-  overflow: hidden;
 
-  /* metallic feel */
+  /* gold glow around button */
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,0.9),
-    inset 0 -2px 4px rgba(0,0,0,0.25),
-    0 4px 12px rgba(0,0,0,0.7),
-    0 0 10px rgba(255,215,120,0.3);
+    0 0 15px rgba(255, 205, 80, 0.7),
+    0 0 25px rgba(255, 215, 120, 0.5),
+    inset 0 0 8px rgba(255, 220, 150, 0.4);
 
-  transition: 0.2s ease;
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 20px;
 }
 
-/* SHINY WHITE HIGHLIGHT */
-.header-btn::after {
+/* gold gradient border using pseudo-element */
+.header-btn::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 45%;
+  inset: 0;
   border-radius: inherit;
-  background: linear-gradient(
-      to bottom,
-      rgba(255,255,255,0.75),
-      rgba(255,255,255,0.1)
+  padding: 3px;
+  background: linear-gradient(140deg,
+      #fff7d1,
+      #f5d277,
+      #e0b047,
+      #b9851e,
+      #e0b047,
+      #f5d277
   );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
   pointer-events: none;
 }
 
-/* hover = more glossy + reflection pop */
-.header-btn:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    inset 0 2px 3px rgba(255,255,255,1),
-    inset 0 -3px 5px rgba(0,0,0,0.35),
-    0 6px 15px rgba(0,0,0,0.8),
-    0 0 12px rgba(255,220,130,0.4);
+/* shiny hotspots */
+.header-btn::after {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  top: -10%;
+  left: -10%;
+  background: radial-gradient(
+      circle,
+      rgba(255,255,255,0.9),
+      rgba(255,255,255,0) 70%
+  );
+  transform: rotate(-20deg);
+  pointer-events: none;
 }
 
-/* Pressed (matte) */
-.header-btn:active {
-  transform: translateY(1px);
-  box-shadow:
-    inset 0 0 8px rgba(0,0,0,0.45),
-    0 2px 5px rgba(0,0,0,0.6);
-}
+
 
 .indent {
   margin-left: 20px;   /* roughly 5 spaces */
