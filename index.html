@@ -13,42 +13,34 @@
 :root{
   --card-radius:12px;
   --flip-duration:0.9s;
-  --gold: #bf902b;
-  --black: #000;
-  --transition-fast: 220ms;
-  --transition-medium: 320ms;
-  --swap-max-height: 160px; /* max height when form is opened */
+  --gold:#bf902b;
+  --black:#000;
+  --transition-fast:220ms;
+  --transition-medium:320ms;
+  --swap-max-height:160px;
 }
-
-/* Reset & base */
 *{box-sizing:border-box;}
 body{
   margin:0;
-  font-family: sans-serif;
-  background: var(--black);
-  color: var(--gold);
+  font-family:sans-serif;
+  background:var(--black);
+  color:var(--gold);
 }
 
-/* ---------------- HEADER ---------------- */
+/* HEADER */
 header{
-  background: var(--black);
-  padding: 10px 12px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 12px;
-  align-items: center;
-  max-width: 100%;
-  width: 100%;
-  border-radius: 0;
-  margin: 0 auto;
+  background:var(--black);
+  padding:10px 12px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:12px;
+  align-items:center;
+  width:100%;
 }
-
-/* Left column (logo + tagline) - center aligned vertically and horizontally inside column */
-.header-left {
+.header-left{
   display:flex;
   flex-direction:column;
-  align-items:center;         /* centered horizontally */
-  justify-content:center;     /* centered vertically within column */
+  align-items:center;
   gap:6px;
   text-align:center;
 }
@@ -57,190 +49,147 @@ header{
   height:68px;
   border-radius:50%;
   overflow:hidden;
-  flex-shrink:0;
 }
-.logo img{ width:100%; height:100%; object-fit:cover; display:block; }
-.header-left .tagline{
-  font-family: 'Armata', sans-serif;
+.logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.tagline{
+  font-family:'Armata';
   font-size:12px;
-  line-height:1.1;
-  color:var(--gold);
   font-weight:700;
 }
-
-/* Center (merged) */
-.header-center {
+.header-center{
   text-align:center;
   display:flex;
   flex-direction:column;
   align-items:center;
 }
 .header-center h1{
-  font-family:'Lobster', cursive;
+  font-family:'Lobster';
   margin:0;
   font-size:34px;
-  line-height:1.05;
-  color:var(--gold);
   font-weight:700;
-  /* glow */
-  text-shadow: 0 2px 8px rgba(191,144,43,0.18), 0 6px 24px rgba(191,144,43,0.06);
+  color:var(--gold);
 }
 .header-center p{
   margin:6px 0 0;
-  font-family:'Armata', sans-serif;
-  font-size:14px;
-  color:var(--gold);
+  font-family:'Armata';
   font-weight:700;
 }
 
-/* Right column — buttons container */
-.header-buttons{
+/* FIXED BUTTON BAR */
+.header-buttons-fixed{
+  position:sticky;
+  top:0;
+  z-index:999;
+  background:var(--black);
   display:flex;
-  flex-direction:column; /* desktop default stacked */
-  gap:8px;
-  align-items:flex-end;
+  justify-content:flex-end;
+  align-items:center;
+  gap:12px;
+  padding:10px 20px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.5);
+}
+.btn-group{position:relative;}
+.header-btn{
+  padding:8px 14px;
+  border-radius:16px;
+  background:#bf902b;
+  color:#fff;
+  font-weight:bold;
+  font-size:13px;
+  border:2px solid transparent;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:0.2s;
+}
+.inputForm{
+  display:none;
+  gap:6px;
+}
+.btn-group.active .header-btn{
+  display:none;
+}
+.btn-group.active .inputForm{
+  display:flex;
+}
+.mobileInput{
+  padding:8px 10px;
+  border-radius:16px;
+  border:1px solid #bf902b;
+  background:#fff;
+  color:#000;
+  font-size:12px;
+  width:180px;
+}
+.sendBtn{
+  padding:6px 12px;
+  border-radius:16px;
+  border:none;
+  background:#bf902b;
+  color:#fff;
+  font-weight:bold;
+  font-size:12px;
+  cursor:pointer;
+  opacity:0.7;
+}
+.sendBtn:enabled{
+  opacity:1;
 }
 
-.btn-group {
-  position: relative;
-  width: 100%;
+/* LAPTOP FIX (reduce button width) */
+@media(min-width:901px){
+  .header-buttons-fixed{
+    justify-content:flex-end;
+  }
+  .header-buttons-fixed .btn-group{
+    width:auto;
+  }
+  .header-buttons-fixed .header-btn{
+    width:auto;
+  }
+  .header-buttons-fixed .inputForm{
+    width:180px;
+  }
 }
 
-/* Button visible by default */
-.header-btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 12px;          /* match input + send padding */
-  border-radius: 16px;        /* same as input/send */
-  background: #bf902b;        /* gold background */
-  color: #ffffff;             /* white text */
-  font-weight: bold;
-  font-size: 13px;
-  border: 2px solid transparent;  /* will show gold outline on focus */
-  cursor: pointer;
-  width: 100%;                /* match input form width */
-  box-sizing: border-box;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+/* MOBILE FIX */
+@media(max-width:700px){
+  .header-buttons-fixed{
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    gap:8px;
+  }
+  .header-buttons-fixed .btn-group{
+    flex:0 0 auto;
+  }
+  .header-buttons-fixed .header-btn{
+    padding:8px 10px;
+    font-size:12px;
+    width:auto;
+  }
+  .header-buttons-fixed .inputForm{
+    width:150px;
+  }
 }
 
-.header-btn:focus {
-  outline: none;
-  box-shadow: 0 0 8px 2px #bf902b; /* glowing gold */
-}
-
-/* Optional hover effect */
-.header-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-/* Form hidden by default */
-.inputForm {
-  display: none;
-  width: 100%;
-  gap: 6px;
-}
-
-/* Show form instead of button */
-.btn-group.active .header-btn {
-  display: none;
-}
-
-.btn-group.active .inputForm {
-  display: flex;
-}
-
-
-.header-buttons-fixed {
-  position: sticky;      /* stays visible on scroll */
-  top: 0;                /* stick to top */
-  z-index: 999;
-  background: var(--black);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  gap: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  min-height: 60px;      /* slightly taller than buttons */
-}
-
-/* Each button in fixed header */
-.header-buttons-fixed .btn-group {
-  flex: 0 1 auto;       /* shrink to fit */
-}
-
-.header-buttons-fixed .header-btn {
-  white-space: nowrap;  /* one line */
-  font-size: 13px;
-  padding: 8px 14px;
-}
-
-  
-/* Input + send button layout */
-.mobileInput {
-  flex: 1;
-  min-width: 100px;
-  padding: 8px 10px;
-  border-radius: 16px;
-  border: 1px solid #bf902b;
-  font-size: 12px;
-  background: #ffffff;
-  color: #000000;
-}
-
-/* small send button */
-.sendBtn {
-  padding: 6px 12px;
-  border-radius: 16px;
-  border: none;
-  background: #bf902b;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  width: auto;
-  opacity: 0.7;
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
-}
-.sendBtn:enabled {
-  opacity: 1;
-}
-
-/* swap background to show subtle card when open (optional) */
-.swap.open .swap-inner {
-  background: rgba(255,255,255,0.02);
-  padding: 10px;
-  border-radius: 20px;
-}
-
-/* ---------------- PAGE / GALLERY ---------------- */
-.page{
-  max-width:1400px;
-  margin:10px auto 20px;  /* header not fixed anymore */
-  padding:12px;
-}
-
-/* gallery grid */
+/* GALLERY */
 .gallery-container{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
   gap:20px;
 }
-
 .gallery-box{
   width:100%;
   aspect-ratio:3/5;
-  min-height:280px;
-  border-radius:var(--card-radius);
+  background:#000;
   position:relative;
   overflow:hidden;
-  background:#000;
-  perspective:1600px;
+  border-radius:12px;
   cursor:pointer;
 }
-
 .gallery-bg,
 .gallery-face,
 .auto-video{
@@ -249,108 +198,56 @@ header{
   width:100%;
   height:100%;
   object-fit:cover;
-  border-radius:inherit;
 }
-
 .gallery-inner{
   position:absolute;
   inset:0;
   transform-style:preserve-3d;
-  transition:transform var(--flip-duration) ease;
+  transition:transform 0.9s;
 }
-.gallery-inner.flipped{ transform: rotateY(180deg); }
-.gallery-face{ backface-visibility:hidden; }
-.gallery-back{ transform:rotateY(180deg); }
+.gallery-inner.flipped{
+  transform:rotateY(180deg);
+}
+.gallery-back{
+  transform:rotateY(180deg);
+}
 
-/* ---------------- FOOTER ---------------- */
-footer{
-  margin:20px auto 10px;
+/* PAGE */
+.page{
   max-width:1400px;
+  margin:10px auto;
+  padding:12px;
+}
+
+/* FOOTER */
+footer{
+  max-width:1400px;
+  margin:20px auto;
   padding:18px;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:15px;
 }
-.footer-card{ background:#000; border:0.5px solid var(--gold); display:flex; flex-direction:column; }
-.footer-header{ background:linear-gradient(180deg,rgba(191,144,43,1),rgba(150,110,33,1)); padding:12px; text-align:center; font-family:'Armata',sans-serif; font-weight:700; color:#fff; }
-.footer-content{ padding:14px 16px; font-family:'Armata',sans-serif; font-weight:700; color:var(--gold); line-height:1.5; }
-
-/* product separator line */
-.prod-line {
-  border: none;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(191,144,43,0.12), rgba(191,144,43,0.22));
-  margin: 8px 0 6px;
-  border-radius: 2px;
+.footer-card{
+  background:#000;
+  border:0.5px solid var(--gold);
 }
-
-/* ---------------- RESPONSIVE TWEAKS ---------------- */
-@media (max-width: 900px){
-  header{ padding:12px; grid-template-columns: auto 1fr; }
-  .header-buttons{ grid-column: 2 / -1; justify-self:flex-end; }
-  .header-center h1{ font-size:22px; }
-  .header-center p{ font-size:12px; margin-top:4px; }
-  .page{ margin-top:20px; }  /* FIXED — remove huge gap */
+.footer-header{
+  background:linear-gradient(180deg,rgba(191,144,43,1),rgba(150,110,33,1));
+  padding:12px;
+  text-align:center;
+  color:#fff;
+  font-family:'Armata';
+  font-weight:700;
 }
-
-/* Mobile: show two buttons side-by-side */
-@media (max-width: 700px) {
-  .header-buttons {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 8px;
-  }
-  .btn-group { width: 48%; }
-  .swap { max-height: 56px; } /* default button height */
-  .swap.open { max-height: var(--swap-max-height); }
-  .swap-inner { justify-content: center; }
-  .mobileInput { font-size: 13px; padding: 8px; }
+.footer-content{
+  padding:14px 16px;
+  color:var(--gold);
+  font-family:'Armata';
+  font-weight:700;
 }
-
-/* Mobile layout: side-by-side buttons */
-@media (max-width: 700px) {
-  .header-buttons {
-    flex-direction: row;           /* horizontal layout */
-    justify-content: flex-start;   /* push to left */
-    width: 100%;
-    gap: 8px;
-  }
-
-  .btn-group {
-    flex: 0 1 auto;                /* shrink to content width */
-  }
-
-  .header-btn {
-    width: auto;                   /* don't fill container */
-    white-space: nowrap;           /* force one line */
-    font-size: 13px;               /* optional: slightly smaller if needed */
-    padding: 8px 10px;             /* keep oval shape */
-  }
-}
-
-  .inputForm {
-    width: 100%;                   /* form fills button space */
-    flex-direction: row;
-  }
-
-  .mobileInput {
-    width: 100%;
-  }
-}
-
-
-  
-/* visual focus states */
-.header-btn:focus,
-.mobileInput:focus,
-.sendBtn:focus{ outline: 2px solid rgba(191,144,43,0.3); outline-offset:2px; border-radius:18px; }
 </style>
 </head>
-<body>
-
-<header>
 
   <!-- left: logo + tagline -->
   <div class="header-left">
