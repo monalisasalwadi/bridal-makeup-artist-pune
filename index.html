@@ -228,6 +228,14 @@ min-width: 240px;
   pointer-events: none;
 }
 
+.sendBtn:disabled {
+  opacity: 0.35;
+  filter: grayscale(80%);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+
 /* shiny highlight */
 .sendBtn::after {
   content: "";
