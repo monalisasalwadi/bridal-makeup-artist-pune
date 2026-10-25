@@ -227,24 +227,55 @@ min-width: 240px;
   white-space:nowrap;
   transition:0.2s;
 }
-.inputForm{
-  display:none;
-  gap:6px;
+.inputForm {
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
-.btn-group.active .header-btn{
-  display:none;
+
+.btn-group.active .header-btn {
+  display: none;
 }
-.btn-group.active .inputForm{
-  display:flex;
+
+.btn-group.active .inputForm {
+  display: flex;
 }
-.mobileInput{
-  padding:8px 10px;
-  border-radius:16px;
-  border:1px solid #bf902b;
-  background:#fff;
-  color:#000;
-  font-size:12px;
-  width:180px;
+
+/* Matching styles for both input boxes */
+.nameInput,
+.mobileInput {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border-radius: 16px;
+  border: 1px solid #bf902b;
+  background: #fff;
+  color: #000;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: normal;
+  height: 36px;
+  outline: none;
+}
+
+/* Match placeholder font and size */
+.nameInput::placeholder,
+.mobileInput::placeholder {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: normal;
+  color: #757575;
+  opacity: 1;
+}
+
+/* Keep the Send button below both fields */
+.inputForm .sendBtn {
+  width: 100%;
+  box-sizing: border-box;
 }
 .sendBtn {
   padding: 8px 14px;
