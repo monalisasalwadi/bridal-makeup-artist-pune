@@ -16,7 +16,7 @@
 
   <!-- SEO Meta Tags -->
   <meta name="description" content="Professional bridal makeup artist in Pune offering elegant, long-lasting bridal makeup for weddings, engagements, and pre-wedding shoots. Book premium, high-quality bridal makeup in Pune." />
-  <meta name="keywords" content="bridal makeup Pune, bridal makeup artist Pune, wedding makeup Pune, bridal make-up Pune, Pune bridal makeup, budget bridal makeup Pune, professional makeup artist Pune" />
+  <meta name="keywords" content="bridal makeup Pune, bridal makeup artist Pune, wedding makeup Pune, bridal make-up Pune, Pune bridal makeup, premium bridal makeup Pune, professional makeup artist Pune" />
   <meta name="author" content="MS Bridal Makeup Pune" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://bridalmakeuppune.in/" />
@@ -26,7 +26,7 @@
   <meta property="og:site_name" content="MS Bridal Makeup Pune" />
   <meta property="og:locale" content="en_IN" />
   <meta property="og:url" content="https://bridalmakeuppune.in/" />
-  <meta property="og:title" content="Bridal Makeup Artist in Pune | Elegant & Budget-Friendly" />
+  <meta property="og:title" content="Bridal Makeup Artist in Pune | Elegant & Premium" />
   <meta property="og:description" content="Looking for a professional bridal makeup artist in Pune? Elegant, long-lasting & premium bridal makeup for weddings, engagements & pre-wedding shoots." />
   <meta property="og:image" content="https://bridalmakeuppune.in/preview.jpg" />
   <meta property="og:image:width" content="1200" />
@@ -34,7 +34,7 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Bridal Makeup Artist in Pune | Elegant & Budget-Friendly" />
+  <meta name="twitter:title" content="Bridal Makeup Artist in Pune | Elegant & Premium" />
   <meta name="twitter:description" content="Professional bridal makeup in Pune for weddings & special occasions. Premium, high-quality makeup with stunning results." />
   <meta name="twitter:image" content="https://bridalmakeuppune.in/preview.jpg" />
 
@@ -65,7 +65,7 @@
   }
   </script>
 
-  <title>Bridal Makeup Artist in Pune | Professional & Budget Bridal Makeup</title>
+  <title>Bridal Makeup Artist in Pune | Premium Bridal Makeup</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
@@ -717,30 +717,16 @@ footer{
   <div class="header-center">
     <h1>MS Bridal Makeup • Pune</h1>
     <p>Premium Bridal Makeup By Monalisa Salwadi </p>
-    <p>पुण्यातील परवडणाऱ्या वधूंचा मेकअप</p>
-    <p>Bridal | Hair-Style | Saree Drape</p>
-    <p>Engagement | Sangeet | Reception | Mehendi</p>
+    <p>पुण्यातील प्रीमियम ब्रायडल मेकअप</p>
+    <p>Bridal | Engagement | Reception</p>
+    <p>Wedding Makeup Packages</p>
   </div>
 
 </header>
 
 <!-- SECOND HEADER BAR FOR BUTTONS -->
 <div class="header-buttons-fixed">
-
-  <div class="btn-group trial" data-type="trial" aria-label="Bridal trial">
-    <div class="swap" aria-expanded="false">
-      <div class="swap-inner">
-        <button class="header-btn" type="button" aria-expanded="false">Bridal trial @ just 1,000/-</button>
-        <div class="inputForm" aria-hidden="true">
-          <input class="nameInput" type="text" maxlength="60" placeholder="Your Name" aria-label="Your name for trial" autocomplete="name">
-          <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for trial">
-          <button class="sendBtn" type="button" disabled>Send</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="btn-group enquiry" data-type="enquiry" aria-label="Get quick call-back">
+<div class="btn-group enquiry" data-type="enquiry" aria-label="Get quick call-back">
     <div class="swap" aria-expanded="false">
       <div class="swap-inner">
         <button class="header-btn" type="button" aria-expanded="false">Get quick call-back</button>
@@ -831,6 +817,19 @@ footer{
   </div>
 </div>
 
+
+<section id="booking-availability" style="max-width:1100px;margin:24px auto;padding:16px;border:1px solid #bf902b;border-radius:12px;background:#080808;color:#bf902b;font-family:'Armata',sans-serif;">
+  <h2 style="text-align:center;margin-top:0;">Check Booking Availability</h2>
+  <p style="text-align:center;">Check the calendar before sending your booking enquiry.</p>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0;"><button type="button" id="calendarPrev" class="header-btn" style="width:auto;">‹ Previous</button><strong id="calendarMonthLabel"></strong><button type="button" id="calendarNext" class="header-btn" style="width:auto;">Next ›</button></div>
+  <div id="publicCalendar" class="public-calendar" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;"></div>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:14px;font-size:12px;"><span>🟢 Available</span><span>🔴 Booked</span><span>⚪ Unavailable</span><span>⚫ Not updated — please confirm</span></div>
+  <p id="calendarLoadStatus" role="status" style="text-align:center;font-size:12px;">Loading availability…</p>
+</section>
+<style>
+.public-calendar .pc-head,.public-calendar .pc-day{padding:9px 2px;text-align:center;border-radius:6px;font-size:12px;min-width:0}.public-calendar .pc-head{background:#292014;font-weight:bold}.public-calendar .pc-day{border:1px solid #6e5320;background:#111}.public-calendar .pc-day.booked{background:#5a2020;color:#fff;border-color:#9f4545}.public-calendar .pc-day.unavailable{background:#353535;color:#ddd;border-color:#666}.public-calendar .pc-day.unknown{background:#111;color:#aaa;border-color:#555}.public-calendar .pc-day.available{background:#174327;color:#fff;border-color:#32864d}@media(max-width:480px){.public-calendar .pc-head,.public-calendar .pc-day{font-size:11px;padding:7px 1px}}
+</style>
+
 <footer>
   <div class="footer-card">
     <div class="footer-header">
@@ -839,7 +838,7 @@ footer{
 
     <div class="footer-content">
 
-      <p class="line">
+      <p class="line" data-service-key="premium_bridal_pack" style="display:none">
         <span class="item highlighted-item">Premium Bridal Pack</span>
         <span class="dots"></span>
         <span class="price">₹17,999</span>
@@ -850,9 +849,7 @@ footer{
       <hr class="prod-line">
       </p>
       </p>
-      <p class="line">
-      <p class="line">
-      <p class="line" style="margin-top:12px;">
+      <p class="line" data-service-key="basic_bridal_pack" style="display:none;margin-top:12px;">
         <span class="item highlighted-item">Basic Bridal Pack</span>
         <span class="dots"></span>
         <span class="price">₹15,499</span>
@@ -868,19 +865,19 @@ footer{
     <div class="footer-header">Individual Events</div>
       </p>
       </p>
-      <p class="line">
+      <p class="line" data-service-key="premium_bridal_makeup" style="display:none">
         <span class="item highlighted-item">Premium Bridal Makeup</span>
         <span class="dots"></span>
         <span class="price">₹9,999</span>
       </p>
       </p>
-      <p class="line">
+      <p class="line" data-service-key="basic_bridal_makeup" style="display:none">
         <span class="item highlighted-item">Basic Bridal Makeup</span>
         <span class="dots"></span>
         <span class="price">₹7,999</span>
       </p>
       </p>
-      <p class="line">
+      <p class="line" data-service-key="engagement_makeup" style="display:none">
         <span class="item highlighted-item">Engagement Makeup</span>
         <span class="dots"></span>
         <span class="price">₹4,999</span>        
@@ -894,62 +891,6 @@ footer{
     </div>
   </div>
 
-  <div class="footer-card">
-    <div class="footer-header">
-      Other Makeups
-     </div>
-    <div class="footer-content">
-      <p class="line">
-        <span class="item highlighted-item">Baby Shower Makeup</span>
-        <!-- <span class="dots"></span> -->
-        <!-- <span class="price">₹3,500</span> -->
-      </p>
-      <p><small>Makeup + Hair-Styling + Saree Draping</small></p>
-
-      <hr class="prod-line">
-      <p class="line">
-      <p class="line">
-      <p class="line">
-      <p class="line">
-        <span class="item highlighted-item">Guest / Sider Makeup</span>
-        <!-- <span class="dots"></span> -->
-        <!-- <span class="price">₹2,500</span> -->
-      </p>
-      <p><small>Makeup + Hair-Styling + Saree Draping</small></p>
-
-      </p>
-      </p>
-      </p>
-      <p class="line">
-      <p class="line">
-        
-      <div class="footer-header">Add-ons</div>
-        </p>
-        </p>
-        <p class="line">
-          <span class="item highlighted-item">Hair-Styling</span>
-          <!-- <span class="dots"></span> -->
-          <!-- <span class="price">₹800</span> -->
-        </p>
-        </p>
-
-        <p class="line">
-          <span class="item highlighted-item">Saree Draping</span>
-          <!-- <span class="dots"></span> -->
-          <!-- <span class="price">₹500</span> -->
-        </p>
-        </p>
-      
-        <p class="line">
-          <span class="item highlighted-item">Saree Pre-pleating</span>
-          <!-- <span class="dots"></span> -->
-          <!-- <span class="price">₹200</span> -->
-        </p>
-
-    </div>
-  </div>
-
-  
   <div class="footer-card">
     <div class="footer-header">Satisfied Souls</div>
     <div class="footer-content shapo-container">
@@ -1259,6 +1200,49 @@ document.addEventListener('keydown', function(e) {
 })();
 
   
+
+// Published prices are loaded only from the GitHub Pages data file.
+(async function loadPublishedPrices(){
+  const PRICE_DATA_URL='/prices.json';
+  document.querySelectorAll('[data-service-key]').forEach(row=>row.style.display='none');
+  try {
+    const response=await fetch(PRICE_DATA_URL+'?v='+Date.now(),{cache:'no-store'});
+    if(!response.ok) throw new Error('Price list is temporarily unavailable. Please contact us for current prices.');
+    const data=await response.json();
+    const today=new Date();today.setHours(0,0,0,0);
+    const start=data.offer_start?new Date(data.offer_start+'T00:00:00'):null;
+    const deadline=data.offer_deadline?new Date(data.offer_deadline+'T23:59:59'):null;
+    const offerActive=!!data.offer_enabled&&start&&deadline&&today>=start&&today<=deadline;
+    const currentMonthName=new Date().toLocaleString('en-US',{month:'long'});
+    const discountPct=Number((data.monthly_discounts||{})[currentMonthName] ?? 20);
+    const services=new Map((data.services||[]).map(s=>[s.key,{...s,discount_pct:discountPct,final_price:Math.round(Number(s.increased_price)*(1-discountPct/100))}]));
+    document.querySelectorAll('[data-service-key]').forEach(row=>{
+      const service=services.get(row.dataset.serviceKey);
+      if(!service){row.style.display='none';return;}
+      const serviceName=row.querySelector('.item');if(serviceName)serviceName.textContent=service.name;
+      const shown=offerActive?Number(service.final_price):Number(service.increased_price);
+      if(!Number.isFinite(shown)||shown<5000){row.style.display='none';return;}
+      row.style.display='block';
+      const price=row.querySelector('.price');if(!price)return;
+      if(offerActive){price.innerHTML='<del style="opacity:.7;font-size:.85em">₹'+Number(service.increased_price).toLocaleString('en-IN')+'</del> <strong>₹'+shown.toLocaleString('en-IN')+'</strong> <small style="display:block;color:#f0cf70">'+Number(service.discount_pct)+'% OFF</small>';}
+      else price.textContent='₹'+Number(service.increased_price).toLocaleString('en-IN');
+    });
+    if(offerActive){const note=document.createElement('p');note.id='limitedOfferMessage';note.style.cssText='text-align:center;color:#f0cf70;font-weight:bold;margin:12px;';note.textContent='Limited-time offer — hurry, offer ends '+new Date(data.offer_deadline+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+'.';const footer=document.querySelector('footer');if(footer)footer.parentNode.insertBefore(note,footer);}
+  } catch(e){console.warn(e);document.querySelectorAll('[data-service-key]').forEach(row=>row.style.display='none');const status=document.getElementById('priceLoadStatus');if(status)status.textContent='Prices are temporarily unavailable. Please contact us for the latest quote.';const notice=document.createElement('p');notice.style.cssText='text-align:center;color:#f0cf70;margin:12px;';notice.textContent='Prices are temporarily unavailable. Please contact us for the latest quote.';const footer=document.querySelector('footer');if(footer)footer.parentNode.insertBefore(notice,footer);}
+})();
+
+// Public calendar reads only the published availability.json file; no personal details are published.
+(function(){
+  const grid=document.getElementById('publicCalendar');if(!grid)return;
+  const label=document.getElementById('calendarMonthLabel');const statusEl=document.getElementById('calendarLoadStatus');
+  let cursor=new Date();cursor.setDate(1);let dateStatuses=new Map();let loaded=false;
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function draw(){grid.innerHTML='';label.textContent=monthNames[cursor.getMonth()]+' '+cursor.getFullYear();['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(x=>{const el=document.createElement('div');el.className='pc-head';el.textContent=x;grid.appendChild(el);});const first=(new Date(cursor.getFullYear(),cursor.getMonth(),1).getDay()+6)%7;const days=new Date(cursor.getFullYear(),cursor.getMonth()+1,0).getDate();for(let i=0;i<first;i++){const el=document.createElement('div');el.className='pc-day';grid.appendChild(el);}for(let day=1;day<=days;day++){const key=cursor.getFullYear()+'-'+String(cursor.getMonth()+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');const el=document.createElement('div');const state=dateStatuses.get(key)||'unknown';el.className='pc-day '+state;el.textContent=day;el.title=state==='booked'?'Booked':state==='unavailable'?'Unavailable':state==='available'?'Available':'Please contact us to confirm';grid.appendChild(el);} }
+  document.getElementById('calendarPrev').addEventListener('click',()=>{cursor.setMonth(cursor.getMonth()-1);draw();});document.getElementById('calendarNext').addEventListener('click',()=>{cursor.setMonth(cursor.getMonth()+1);draw();});
+  fetch('/availability.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Calendar is not published yet.');return r.json();}).then(data=>{dateStatuses=new Map((data.dates||[]).map(d=>[d.date,d.status]));loaded=true;statusEl.textContent='Availability updated '+(data.updated_at?new Date(data.updated_at).toLocaleString('en-IN'):'recently')+'. Please confirm availability with us before paying an advance.';draw();}).catch(()=>{statusEl.textContent='Availability could not be loaded. Please contact us to confirm your date.';draw();});
+  draw();
+})();
+
 </script>
 </body>
 </html>
