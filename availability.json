@@ -1,5 +1,14 @@
 {
-  "updated_at": null,
+  "updated_at": "2026-10-30T19:05:36+00:00",
   "timezone": "Asia/Kolkata",
-  "dates": []
+  "dates": [
+    {
+      "date": "2026-10-29",
+      "status": "booked"
+    },
+    {
+      "date": "2026-11-23",
+      "status": "booked"
+    }
+  ]
 }
