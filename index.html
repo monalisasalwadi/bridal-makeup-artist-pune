@@ -1238,9 +1238,9 @@ document.addEventListener('keydown', function(e) {
       row.style.display='block';
       const price=row.querySelector('.price');if(!price)return;
       if(service.discount_pct>0){
-        price.innerHTML='<del style="opacity:.75;font-size:.85em">₹'+increased.toLocaleString('en-IN')+'</del> <strong>₹'+finalPrice.toLocaleString('en-IN')+'</strong>';
+        price.innerHTML='<del style="opacity:.75;font-size:.85em">₹'+increased.toLocaleDateString('en-IN')+'</del> <strong>₹'+finalPrice.toLocaleDateString('en-IN')+'</strong>';
       } else {
-        price.textContent='₹'+increased.toLocaleString('en-IN');
+        price.textContent='₹'+increased.toLocaleDateString('en-IN');
       }
     });
   } catch(e){console.warn(e);document.querySelectorAll('[data-service-key]').forEach(row=>row.style.display='none');const status=document.getElementById('priceLoadStatus');if(status)status.textContent='Prices are temporarily unavailable. Please contact us for the latest quote.';const notice=document.createElement('p');notice.style.cssText='text-align:center;color:#f0cf70;margin:12px;';notice.textContent='Prices are temporarily unavailable. Please contact us for the latest quote.';const footer=document.querySelector('footer');if(footer)footer.parentNode.insertBefore(notice,footer);}
