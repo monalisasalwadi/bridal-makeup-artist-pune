@@ -723,7 +723,6 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
       autoplay
       muted
       playsinline
-      loop
       preload="auto"
       poster="loading/preview.jpeg"
       aria-hidden="true"
@@ -1292,14 +1291,38 @@ document.addEventListener('keydown', function(e) {
 
   async function revealWhenReady() {
     const loadingVideo = document.getElementById('page-loader-video');
+
+    // Start the loading video immediately. It plays once, so visitors see the
+    // complete story rather than having it cut off when the website is ready.
+    let videoFinished = Promise.resolve();
     if (loadingVideo) {
-      // Muted inline playback is generally permitted by mobile and desktop browsers.
-      const playAttempt = loadingVideo.play();
-      if (playAttempt && typeof playAttempt.catch === 'function') {
-        playAttempt.catch(() => {
-          // The preview image remains visible if autoplay is blocked.
-        });
-      }
+      videoFinished = new Promise(resolve => {
+        let settled = false;
+        const finish = () => {
+          if (settled) return;
+          settled = true;
+          loadingVideo.removeEventListener('ended', finish);
+          loadingVideo.removeEventListener('error', finish);
+          resolve();
+        };
+
+        if (loadingVideo.ended) {
+          finish();
+          return;
+        }
+
+        loadingVideo.addEventListener('ended', finish, { once: true });
+        loadingVideo.addEventListener('error', finish, { once: true });
+
+        const playAttempt = loadingVideo.play();
+        if (playAttempt && typeof playAttempt.catch === 'function') {
+          playAttempt.catch(() => {
+            // If autoplay is blocked, keep the photo poster as the fallback
+            // and do not hold the website behind a video that cannot play.
+            finish();
+          });
+        }
+      });
     }
 
     await waitForWindowLoad();
@@ -1310,8 +1333,11 @@ document.addEventListener('keydown', function(e) {
 
     await Promise.all(Array.from(document.images, waitForImage));
     await Promise.all(
-      Array.from(document.querySelectorAll('video'), waitForVideo)
+      Array.from(document.querySelectorAll('video:not(#page-loader-video)'), waitForVideo)
     );
+
+    // Wait for BOTH the website resources and the complete loading video.
+    await videoFinished;
 
     // Allow two paint frames before hiding the overlay.
     await new Promise(resolve =>
