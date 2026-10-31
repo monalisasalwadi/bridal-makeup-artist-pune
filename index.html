@@ -1252,15 +1252,37 @@ document.addEventListener('keydown', function(e) {
         engagement_makeup:'Engagement'
       };
       if(serviceName)serviceName.textContent=publicNames[service.key]||service.name;
-      const increased=Number(service.increased_price);
-      const finalPrice=Number(service.final_price);
-      if(!Number.isFinite(increased)||!Number.isFinite(finalPrice)||finalPrice<5000){row.style.display='none';return;}
-      row.style.display='block';
-      const price=row.querySelector('.price');if(!price)return;
-      if(service.discount_pct>0){
-        price.innerHTML='<del style="opacity:.75;font-size:.85em">₹'+increased.toLocaleDateString('en-IN')+'</del> <strong>₹'+finalPrice.toLocaleDateString('en-IN')+'</strong>';
+      const increased = Number(service.increased_price);
+      const finalPrice = Math.round(
+        increased * (1 - service.discount_pct / 100)
+      );
+      
+      if (
+        !Number.isFinite(increased) ||
+        !Number.isFinite(finalPrice) ||
+        finalPrice < 5000
+      ) {
+        row.style.display = 'none';
+        return;
+      }
+      
+      row.style.display = 'flex';
+      
+      const price = row.querySelector('.price');
+      if (!price) return;
+      
+      const formatPrice = value =>
+        new Intl.NumberFormat('en-IN').format(value);
+      
+      if (service.discount_pct > 0) {
+        price.innerHTML =
+          '<del style="opacity:.75;font-size:.85em">₹' +
+          formatPrice(increased) +
+          '</del> <strong>₹' +
+          formatPrice(finalPrice) +
+          '</strong>';
       } else {
-        price.textContent='₹'+increased.toLocaleDateString('en-IN');
+        price.textContent = '₹' + formatPrice(increased);
       }
     });
   } catch(e){console.warn(e);document.querySelectorAll('[data-service-key]').forEach(row=>row.style.display='none');const status=document.getElementById('priceLoadStatus');if(status)status.textContent='Prices are temporarily unavailable. Please contact us for the latest quote.';const notice=document.createElement('p');notice.style.cssText='text-align:center;color:#f0cf70;margin:12px;';notice.textContent='Prices are temporarily unavailable. Please contact us for the latest quote.';const footer=document.querySelector('footer');if(footer)footer.parentNode.insertBefore(notice,footer);}
