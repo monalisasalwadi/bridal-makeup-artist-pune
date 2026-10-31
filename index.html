@@ -1271,7 +1271,7 @@ document.addEventListener('keydown', function(e) {
     }
   }
   document.getElementById('calendarPrev').addEventListener('click',()=>{cursor.setMonth(cursor.getMonth()-1);draw();});document.getElementById('calendarNext').addEventListener('click',()=>{cursor.setMonth(cursor.getMonth()+1);draw();});
-  fetch('/availability.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Calendar is not published yet.');return r.json();}).then(data=>{dateStatuses=new Map((data.dates||[]).map(d=>[d.date,d.status]));loaded=true;statusEl.textContent='Availability updated '+(data.updated_at?new Date(data.updated_at).toLocaleString('en-IN'):'recently')+'. Please confirm availability with us.';draw();}).catch(()=>{statusEl.textContent='Availability could not be loaded. Please contact us to confirm your date.';draw();});
+  fetch('/availability.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Calendar is not published yet.');return r.json();}).then(data=>{dateStatuses=new Map((data.dates||[]).map(d=>[d.date,d.status]));loaded=true;statusEl.textContent='Availability updated '+(data.updated_at?new Date(data.updated_at).toLocaleDateString('en-IN'):'recently')+'. Please confirm availability with us.';draw();}).catch(()=>{statusEl.textContent='Availability could not be loaded. Please contact us to confirm your date.';draw();});
   draw();
 })();
 
