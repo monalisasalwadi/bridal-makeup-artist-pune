@@ -735,24 +735,6 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
   body > :not(#page-loader) { transition: none; }
 }
 
-/* Stack header buttons vertically at the top-right */
-.header-buttons-fixed {
-  position: fixed;
-  top: 15px;
-  right: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: 18px;
-  z-index: 1000;
-  width: auto;
-}
-
-/* Keep each button aligned consistently */
-.header-buttons-fixed > * {
-  margin: 0;
-}
 
 </style>
 
@@ -827,11 +809,6 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
     <svg width="16" height="16" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.47 11.47 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.58a1 1 0 01-.24 1.01l-2.21 2.2z"/></svg>
     Call Now
   </a>
-
-  <!-- CONTACT PHONE: web/desktop only -->
-  <div class="header-btn contact-number-web">
-      Call # 9011047922
-  </div>
 
 </div>
 
