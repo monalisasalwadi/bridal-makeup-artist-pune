@@ -735,6 +735,28 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
   body > :not(#page-loader) { transition: none; }
 }
 
+/* Stack header buttons vertically at the top-right */
+.header-buttons-fixed {
+  position: fixed;
+  top: 15px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 18px;
+  z-index: 1000;
+  width: auto;
+}
+
+/* Keep each button aligned consistently */
+.header-buttons-fixed > * {
+  margin: 0;
+}
+
+</style>
+
+    
 </style>
 </head>
 
