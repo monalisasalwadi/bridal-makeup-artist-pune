@@ -748,7 +748,6 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
     <div class="loader-content">
       <div class="loader-spinner" aria-hidden="true"></div>
       <p>Preparing your experience...</p>
-      <p>Meanwhile meet the Artist...</p>
     </div>
   </div>
   <header>
@@ -1201,25 +1200,32 @@ document.addEventListener('keydown', function(e) {
     const response=await fetch(PRICE_DATA_URL+'?v='+Date.now(),{cache:'no-store'});
     if(!response.ok) throw new Error('Price list is temporarily unavailable. Please contact us for current prices.');
     const data=await response.json();
-    const today=new Date();today.setHours(0,0,0,0);
-    const start=data.offer_start?new Date(data.offer_start+'T00:00:00'):null;
-    const deadline=data.offer_deadline?new Date(data.offer_deadline+'T23:59:59'):null;
-    const offerActive=!!data.offer_enabled&&start&&deadline&&today>=start&&today<=deadline;
+    // Public display uses the increased price from prices.json as the
+    // original price, then applies the current month's tracker discount.
+    // The offer start/deadline fields do not control the monthly discount.
     const currentMonthName=new Date().toLocaleString('en-US',{month:'long'});
-    const discountPct=Number((data.monthly_discounts||{})[currentMonthName] ?? 20);
-    const services=new Map((data.services||[]).map(s=>[s.key,{...s,discount_pct:discountPct,final_price:Math.round(Number(s.increased_price)*(1-discountPct/100))}]));
+    const discountPctRaw=Number((data.monthly_discounts||{})[currentMonthName] ?? 0);
+    const discountPct=Math.min(100,Math.max(0,Number.isFinite(discountPctRaw)?discountPctRaw:0));
+    const services=new Map((data.services||[]).map(s=>{
+      const increased=Number(s.increased_price);
+      const finalPrice=Math.round(increased*(1-discountPct/100));
+      return [s.key,{...s,discount_pct:discountPct,final_price:finalPrice}];
+    }));
     document.querySelectorAll('[data-service-key]').forEach(row=>{
       const service=services.get(row.dataset.serviceKey);
       if(!service){row.style.display='none';return;}
       const serviceName=row.querySelector('.item');if(serviceName)serviceName.textContent=service.name;
-      const shown=offerActive?Number(service.final_price):Number(service.increased_price);
-      if(!Number.isFinite(shown)||shown<5000){row.style.display='none';return;}
+      const increased=Number(service.increased_price);
+      const finalPrice=Number(service.final_price);
+      if(!Number.isFinite(increased)||!Number.isFinite(finalPrice)||finalPrice<5000){row.style.display='none';return;}
       row.style.display='block';
       const price=row.querySelector('.price');if(!price)return;
-      if(offerActive){price.innerHTML='<del style="opacity:.7;font-size:.85em">₹'+Number(service.increased_price).toLocaleString('en-IN')+'</del> <strong>₹'+shown.toLocaleString('en-IN')+'</strong> <small style="display:block;color:#f0cf70">'+Number(service.discount_pct)+'% OFF</small>';}
-      else price.textContent='₹'+Number(service.increased_price).toLocaleString('en-IN');
+      if(service.discount_pct>0){
+        price.innerHTML='<del style="opacity:.75;font-size:.85em">₹'+increased.toLocaleString('en-IN')+'</del> <strong>₹'+finalPrice.toLocaleString('en-IN')+'</strong>';
+      } else {
+        price.textContent='₹'+increased.toLocaleString('en-IN');
+      }
     });
-    if(offerActive){const note=document.createElement('p');note.id='limitedOfferMessage';note.style.cssText='text-align:center;color:#f0cf70;font-weight:bold;margin:12px;';note.textContent='Limited-time offer — hurry, offer ends '+new Date(data.offer_deadline+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+'.';const footer=document.querySelector('footer');if(footer)footer.parentNode.insertBefore(note,footer);}
   } catch(e){console.warn(e);document.querySelectorAll('[data-service-key]').forEach(row=>row.style.display='none');const status=document.getElementById('priceLoadStatus');if(status)status.textContent='Prices are temporarily unavailable. Please contact us for the latest quote.';const notice=document.createElement('p');notice.style.cssText='text-align:center;color:#f0cf70;margin:12px;';notice.textContent='Prices are temporarily unavailable. Please contact us for the latest quote.';const footer=document.querySelector('footer');if(footer)footer.parentNode.insertBefore(notice,footer);}
 })();
 
