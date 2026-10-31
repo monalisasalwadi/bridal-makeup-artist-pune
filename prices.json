@@ -1,9 +1,69 @@
 {
-  "updated_at": null,
+  "updated_at": "2026-10-31T08:10:46+00:00",
   "currency": "INR",
-  "month": null,
-  "offer_enabled": false,
-  "offer_start": "",
-  "offer_deadline": "",
-  "services": []
+  "month": "October",
+  "offer_enabled": true,
+  "offer_start": "2026-10-29",
+  "offer_deadline": "2026-10-29",
+  "monthly_discounts": {
+    "January": 20.0,
+    "February": 20.0,
+    "March": 20.0,
+    "April": 20.0,
+    "May": 20.0,
+    "June": 20.0,
+    "July": 20.0,
+    "August": 20.0,
+    "September": 20.0,
+    "October": 20.0,
+    "November": 20.0,
+    "December": 20.0
+  },
+  "services": [
+    {
+      "key": "premium_bridal_pack",
+      "name": "Premium Bridal Pack",
+      "base_price": 18000,
+      "hike_pct": 50.0,
+      "increased_price": 27000,
+      "discount_pct": 20.0,
+      "final_price": 21600
+    },
+    {
+      "key": "basic_bridal_pack",
+      "name": "Basic Bridal Pack",
+      "base_price": 16000,
+      "hike_pct": 50.0,
+      "increased_price": 24000,
+      "discount_pct": 20.0,
+      "final_price": 19200
+    },
+    {
+      "key": "premium_bridal_makeup",
+      "name": "Premium Bridal Makeup",
+      "base_price": 10000,
+      "hike_pct": 50.0,
+      "increased_price": 15000,
+      "discount_pct": 20.0,
+      "final_price": 12000
+    },
+    {
+      "key": "basic_bridal_makeup",
+      "name": "Basic Bridal Makeup",
+      "base_price": 8000,
+      "hike_pct": 50.0,
+      "increased_price": 12000,
+      "discount_pct": 20.0,
+      "final_price": 9600
+    },
+    {
+      "key": "engagement_makeup",
+      "name": "Engagement Makeup",
+      "base_price": 5000,
+      "hike_pct": 50.0,
+      "increased_price": 7500,
+      "discount_pct": 20.0,
+      "final_price": 6000
+    }
+  ]
 }
