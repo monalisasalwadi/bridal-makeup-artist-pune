@@ -860,8 +860,8 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
 <footer>
   <div class="footer-card">
     <div class="footer-header">
-      Value Bridal Pack
-      <span style="font-size: 8px;"><span id="monthly-discount-message"></span></span>
+        Value Bridal Pack
+        <span id="monthly-discount-message" style="display:block; font-size:8px;"></span>
     </div>
 
     <div class="footer-content">
@@ -1406,7 +1406,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         discountMessage.textContent =
-            ` - Call now to avail ${month} discount: 10% more!`;
+            `Call now to avail ${month} discount: 10% more!`;
     }
 });
 </script>
