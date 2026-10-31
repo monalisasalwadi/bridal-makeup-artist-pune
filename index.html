@@ -380,23 +380,39 @@ min-width: 240px;
   }
 }
 
-/* MOBILE FIX */
+/* MOBILE FIX - Keep buttons in one horizontal row */
 @media(max-width:700px){
   .header-buttons-fixed{
-    flex-wrap:wrap;
-    justify-content:flex-end;
-    gap:8px;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content:center;
+    align-items:center;
+    gap:6px;
+    padding:10px 6px;
+    overflow-x:auto;
   }
+
   .header-buttons-fixed .btn-group{
-    flex:0 0 auto;
+    min-width:0;
+    flex:0 1 auto;
   }
+
   .header-buttons-fixed .header-btn{
-    padding:8px 10px;
-    font-size:12px;
     width:auto;
+    padding:8px 7px;
+    font-size:clamp(9px, 2.7vw, 12px);
+    white-space:nowrap;
   }
+
   .header-buttons-fixed .inputForm{
-    width:150px;
+    width:130px;
+  }
+
+  .header-buttons-fixed .btn-call-now{
+    flex:0 0 auto;
+    padding:8px 9px;
+    font-size:11px;
   }
 }
 
