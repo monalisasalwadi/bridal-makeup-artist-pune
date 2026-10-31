@@ -608,100 +608,35 @@ footer{
   }
 }
 
-/* WhatsApp — non-mobile only */
-.btn-whatsapp {
-  display: none;
-}
-@media (min-width: 769px) {
-  .btn-whatsapp {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 16px;
-    border-radius: 16px;
-    background: #25D366;
-    color: #fff;
-    font-weight: 700;
-    font-size: 13px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 0 12px rgba(37,211,102,0.5);
-    white-space: nowrap;
-  }
+/* Phone contact — web/desktop only */
+.btn-contact-web { display:none; }
+@media (min-width:769px) {
+ .btn-contact-web { display:inline-flex; align-items:center; gap:6px; padding:10px 16px;
+ border-radius:16px; background:#bf902b; color:#fff; font-weight:700; font-size:13px;
+ border:none; cursor:pointer; text-decoration:none; white-space:nowrap;
+ box-shadow:0 0 12px rgba(191,144,43,.45); }
 }
 
-/* WhatsApp modal overlay */
-#wa-modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
+
+/* Booking calendar card */
+.calendar-content { font-size:12px; }
+.calendar-navigation { display:flex; justify-content:space-between; align-items:center; gap:6px; margin:12px 0; }
+.calendar-nav-btn { width:auto; padding:7px 9px; font-size:11px; }
+.public-calendar { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px; }
+.public-calendar .pc-head,.public-calendar .pc-day { padding:8px 2px; text-align:center; border-radius:6px; font-size:11px; min-width:0; }
+.public-calendar .pc-head { background:#292014; font-weight:bold; }
+.public-calendar .pc-day { border:1px solid #6e5320; background:#111; color:#bf902b; }
+.public-calendar .pc-day.booked { background:#5a2020; color:#fff; border-color:#9f4545; }
+.public-calendar .pc-day.unavailable { background:#353535; color:#ddd; border-color:#666; }
+.calendar-legend { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:12px; font-size:11px; }
+.legend-dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:4px; }
+.booked-dot { background:#9f4545; } .unavailable-dot { background:#888; }
+.calendar-load-status { text-align:center; font-size:10px; line-height:1.5; margin-bottom:0; }
+@media(max-width:480px) {
+ .public-calendar .pc-head,.public-calendar .pc-day { font-size:10px; padding:7px 1px; }
+ .calendar-nav-btn { padding:6px 7px; }
 }
-#wa-modal-overlay.open {
-  display: flex;
-}
-#wa-modal {
-  background: #111;
-  border: 1px solid #bf902b;
-  border-radius: 14px;
-  padding: 28px 24px;
-  width: 320px;
-  max-width: 90vw;
-}
-#wa-modal h3 {
-  color: #bf902b;
-  font-family: 'Armata', sans-serif;
-  margin: 0 0 18px;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.wa-input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid #bf902b;
-  background: #fff;
-  color: #000;
-  font-size: 13px;
-  margin-bottom: 12px;
-}
-.wa-modal-footer {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 6px;
-}
-.wa-cancel-btn {
-  padding: 9px 16px;
-  border-radius: 10px;
-  border: 1px solid #bf902b;
-  background: transparent;
-  color: #bf902b;
-  font-size: 13px;
-  cursor: pointer;
-}
-.wa-send-btn {
-  padding: 9px 16px;
-  border-radius: 10px;
-  border: none;
-  background: #25D366;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-.wa-send-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-    
- 
+
 </style>
 </head>
 
@@ -726,7 +661,17 @@ footer{
 
 <!-- SECOND HEADER BAR FOR BUTTONS -->
 <div class="header-buttons-fixed">
-<div class="btn-group enquiry" data-type="enquiry" aria-label="Get quick call-back">
+<div class="btn-group enquiry" data-type="trial" aria-label="Book a bridal trial">
+    <div class="swap" aria-expanded="false"><div class="swap-inner">
+      <button class="header-btn" type="button" aria-expanded="false">Trial @ ₹1,000/-</button>
+      <div class="inputForm" aria-hidden="true">
+        <input class="nameInput" type="text" maxlength="60" placeholder="Your Name" aria-label="Your name for bridal trial enquiry" autocomplete="name">
+        <input class="mobileInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Mobile Number" aria-label="Mobile number for bridal trial enquiry">
+        <button class="sendBtn" type="button" disabled>Send</button>
+      </div>
+    </div></div>
+  </div>
+  <div class="btn-group enquiry" data-type="enquiry" aria-label="Get quick call-back">
     <div class="swap" aria-expanded="false">
       <div class="swap-inner">
         <button class="header-btn" type="button" aria-expanded="false">Get quick call-back</button>
@@ -745,28 +690,9 @@ footer{
     Call Now
   </a>
 
-  <!-- WHATSAPP: non-mobile only -->
-  <button class="btn-whatsapp" id="waOpenBtn" type="button" aria-label="WhatsApp us">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.1-1.34A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.07 14.1c-.22.6-1.27 1.15-1.74 1.2-.44.05-.98.07-1.58-.1a14.6 14.6 0 01-1.43-.53c-2.5-1.08-4.13-3.6-4.26-3.77-.12-.17-1-1.33-1-2.54 0-1.2.63-1.8.86-2.04.22-.24.48-.3.64-.3l.46.01c.15 0 .35-.06.54.41.2.5.7 1.7.76 1.82.06.12.1.27.02.43-.08.17-.12.27-.24.42l-.36.42c-.12.13-.25.27-.1.52.14.25.63 1.04 1.36 1.68.94.84 1.73 1.1 1.98 1.22.24.12.38.1.52-.06l.74-.87c.17-.2.34-.14.56-.08l1.76.83c.2.1.34.14.39.22.05.08.05.47-.17 1.07z"/></svg>
-    WhatsApp
-  </button>
+  <!-- CONTACT PHONE: web/desktop only -->
+  <a class="btn-contact-web" href="tel:+919940150135" aria-label="Call 9940150135">Call 9940150135</a>
 
-</div>
-
-<!-- WHATSAPP MODAL -->
-<div id="wa-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="wa-modal-title">
-  <div id="wa-modal">
-    <h3 id="wa-modal-title">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.1-1.34A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.07 14.1c-.22.6-1.27 1.15-1.74 1.2-.44.05-.98.07-1.58-.1a14.6 14.6 0 01-1.43-.53c-2.5-1.08-4.13-3.6-4.26-3.77-.12-.17-1-1.33-1-2.54 0-1.2.63-1.8.86-2.04.22-.24.48-.3.64-.3l.46.01c.15 0 .35-.06.54.41.2.5.7 1.7.76 1.82.06.12.1.27.02.43-.08.17-.12.27-.24.42l-.36.42c-.12.13-.25.27-.1.52.14.25.63 1.04 1.36 1.68.94.84 1.73 1.1 1.98 1.22.24.12.38.1.52-.06l.74-.87c.17-.2.34-.14.56-.08l1.76.83c.2.1.34.14.39.22.05.08.05.47-.17 1.07z"/></svg>
-      Send Enquiry via WhatsApp
-    </h3>
-    <input class="wa-input" id="waName" type="text" placeholder="Your Name" maxlength="60" />
-    <input class="wa-input" id="waPhone" type="tel" inputmode="numeric" placeholder="Your Mobile Number" maxlength="10" />
-    <div class="wa-modal-footer">
-      <button class="wa-cancel-btn" id="waCloseBtn" type="button">Cancel</button>
-      <button class="wa-send-btn" id="waSendBtn" type="button" disabled>Send on WhatsApp</button>
-    </div>
-  </div>
 </div>
 
 <!-- PAGE CONTENT (gallery, footer, etc.) -->
@@ -818,22 +744,12 @@ footer{
 </div>
 
 
-<section id="booking-availability" style="max-width:1100px;margin:24px auto;padding:16px;border:1px solid #bf902b;border-radius:12px;background:#080808;color:#bf902b;font-family:'Armata',sans-serif;">
-  <h2 style="text-align:center;margin-top:0;">Check Booking Availability</h2>
-  <p style="text-align:center;">Check the calendar before sending your booking enquiry.</p>
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0;"><button type="button" id="calendarPrev" class="header-btn" style="width:auto;">‹ Previous</button><strong id="calendarMonthLabel"></strong><button type="button" id="calendarNext" class="header-btn" style="width:auto;">Next ›</button></div>
-  <div id="publicCalendar" class="public-calendar" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;"></div>
-  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:14px;font-size:12px;"><span>🟢 Available</span><span>🔴 Booked</span><span>⚪ Unavailable</span><span>⚫ Not updated — please confirm</span></div>
-  <p id="calendarLoadStatus" role="status" style="text-align:center;font-size:12px;">Loading availability…</p>
-</section>
-<style>
-.public-calendar .pc-head,.public-calendar .pc-day{padding:9px 2px;text-align:center;border-radius:6px;font-size:12px;min-width:0}.public-calendar .pc-head{background:#292014;font-weight:bold}.public-calendar .pc-day{border:1px solid #6e5320;background:#111}.public-calendar .pc-day.booked{background:#5a2020;color:#fff;border-color:#9f4545}.public-calendar .pc-day.unavailable{background:#353535;color:#ddd;border-color:#666}.public-calendar .pc-day.unknown{background:#111;color:#aaa;border-color:#555}.public-calendar .pc-day.available{background:#174327;color:#fff;border-color:#32864d}@media(max-width:480px){.public-calendar .pc-head,.public-calendar .pc-day{font-size:11px;padding:7px 1px}}
-</style>
+
 
 <footer>
   <div class="footer-card">
     <div class="footer-header">
-      Marriage Package <span style="font-size: 8px;">[Sangeet + Marriage + Reception]</span>
+      Price <span style="font-size: 8px;">[Sangeet + Marriage + Reception]</span>
     </div>
 
     <div class="footer-content">
@@ -888,6 +804,24 @@ footer{
       </p>
 
 
+    </div>
+  </div>
+
+  <div class="footer-card calendar-card" id="booking-availability">
+    <div class="footer-header">Booking Availability</div>
+    <div class="footer-content calendar-content">
+      <p style="text-align:center;margin-top:0;">Check the calendar before sending your booking enquiry.</p>
+      <div class="calendar-navigation">
+        <button type="button" id="calendarPrev" class="header-btn calendar-nav-btn">‹ Previous</button>
+        <strong id="calendarMonthLabel"></strong>
+        <button type="button" id="calendarNext" class="header-btn calendar-nav-btn">Next ›</button>
+      </div>
+      <div id="publicCalendar" class="public-calendar"></div>
+      <div class="calendar-legend">
+        <span><i class="legend-dot booked-dot"></i> Booked</span>
+        <span><i class="legend-dot unavailable-dot"></i> Unavailable</span>
+      </div>
+      <p id="calendarLoadStatus" role="status" class="calendar-load-status">Loading availability…</p>
     </div>
   </div>
 
@@ -1147,60 +1081,6 @@ document.addEventListener('keydown', function(e) {
     }
 });  
 
-// WhatsApp modal logic
-(function(){
-  var overlay = document.getElementById('wa-modal-overlay');
-  var openBtn = document.getElementById('waOpenBtn');
-  var closeBtn = document.getElementById('waCloseBtn');
-  var sendBtn = document.getElementById('waSendBtn');
-  var nameInput = document.getElementById('waName');
-  var phoneInput = document.getElementById('waPhone');
-
-  if (!openBtn) return; // not shown on mobile, skip
-
-  function validate(){
-    sendBtn.disabled = !(nameInput.value.trim().length > 1 && phoneInput.value.replace(/\D/g,'').length === 10);
-  }
-
-  openBtn.addEventListener('click', function(){
-    overlay.classList.add('open');
-    nameInput.focus();
-  });
-
-  closeBtn.addEventListener('click', function(){
-    overlay.classList.remove('open');
-    nameInput.value = '';
-    phoneInput.value = '';
-    sendBtn.disabled = true;
-  });
-
-  overlay.addEventListener('click', function(e){
-    if (e.target === overlay) closeBtn.click();
-  });
-
-  nameInput.addEventListener('input', validate);
-
-  phoneInput.addEventListener('input', function(){
-    phoneInput.value = phoneInput.value.replace(/\D/g,'').slice(0,10);
-    validate();
-  });
-
-  sendBtn.addEventListener('click', function(){
-    var name = nameInput.value.trim();
-    var phone = phoneInput.value.trim();
-    var msg = encodeURIComponent(
-      'Hello MS Bridal Makeup Pune!\n\nName: ' + name +
-      '\nMobile: ' + phone +
-      '\n\nI am interested in your bridal makeup services. Please get in touch.'
-    );
-    // Opens WhatsApp web (no app install needed on their device)
-    window.open('https://api.whatsapp.com/send?phone=919011047922&text=' + msg, '_blank');
-    closeBtn.click();
-  });
-})();
-
-  
-
 // Published prices are loaded only from the GitHub Pages data file.
 (async function loadPublishedPrices(){
   const PRICE_DATA_URL='/prices.json';
@@ -1237,9 +1117,26 @@ document.addEventListener('keydown', function(e) {
   const label=document.getElementById('calendarMonthLabel');const statusEl=document.getElementById('calendarLoadStatus');
   let cursor=new Date();cursor.setDate(1);let dateStatuses=new Map();let loaded=false;
   const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  function draw(){grid.innerHTML='';label.textContent=monthNames[cursor.getMonth()]+' '+cursor.getFullYear();['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(x=>{const el=document.createElement('div');el.className='pc-head';el.textContent=x;grid.appendChild(el);});const first=(new Date(cursor.getFullYear(),cursor.getMonth(),1).getDay()+6)%7;const days=new Date(cursor.getFullYear(),cursor.getMonth()+1,0).getDate();for(let i=0;i<first;i++){const el=document.createElement('div');el.className='pc-day';grid.appendChild(el);}for(let day=1;day<=days;day++){const key=cursor.getFullYear()+'-'+String(cursor.getMonth()+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');const el=document.createElement('div');const state=dateStatuses.get(key)||'unknown';el.className='pc-day '+state;el.textContent=day;el.title=state==='booked'?'Booked':state==='unavailable'?'Unavailable':state==='available'?'Available':'Please contact us to confirm';grid.appendChild(el);} }
+  function draw(){
+    grid.innerHTML='';
+    label.textContent=monthNames[cursor.getMonth()]+' '+cursor.getFullYear();
+    ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(x=>{const el=document.createElement('div');el.className='pc-head';el.textContent=x;grid.appendChild(el);});
+    const first=(new Date(cursor.getFullYear(),cursor.getMonth(),1).getDay()+6)%7;
+    const days=new Date(cursor.getFullYear(),cursor.getMonth()+1,0).getDate();
+    for(let i=0;i<first;i++){const el=document.createElement('div');el.className='pc-day';grid.appendChild(el);}
+    for(let day=1;day<=days;day++){
+      const key=cursor.getFullYear()+'-'+String(cursor.getMonth()+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+      const el=document.createElement('div');
+      const savedState=dateStatuses.get(key);
+      const state=(savedState==='booked'||savedState==='unavailable')?savedState:'';
+      el.className='pc-day'+(state?' '+state:'');
+      el.textContent=day;
+      if(state) el.title=state==='booked'?'Booked':'Unavailable';
+      grid.appendChild(el);
+    }
+  }
   document.getElementById('calendarPrev').addEventListener('click',()=>{cursor.setMonth(cursor.getMonth()-1);draw();});document.getElementById('calendarNext').addEventListener('click',()=>{cursor.setMonth(cursor.getMonth()+1);draw();});
-  fetch('/availability.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Calendar is not published yet.');return r.json();}).then(data=>{dateStatuses=new Map((data.dates||[]).map(d=>[d.date,d.status]));loaded=true;statusEl.textContent='Availability updated '+(data.updated_at?new Date(data.updated_at).toLocaleString('en-IN'):'recently')+'. Please confirm availability with us before paying an advance.';draw();}).catch(()=>{statusEl.textContent='Availability could not be loaded. Please contact us to confirm your date.';draw();});
+  fetch('/availability.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Calendar is not published yet.');return r.json();}).then(data=>{dateStatuses=new Map((data.dates||[]).map(d=>[d.date,d.status]));loaded=true;statusEl.textContent='Availability updated '+(data.updated_at?new Date(data.updated_at).toLocaleString('en-IN'):'recently')+'. Please confirm availability with us.';draw();}).catch(()=>{statusEl.textContent='Availability could not be loaded. Please contact us to confirm your date.';draw();});
   draw();
 })();
 
