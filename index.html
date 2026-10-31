@@ -82,7 +82,7 @@
   }
   </script>
 
-  <title>Bridal Makeup Artist in Pune | Premium Bridal Makeup</title>
+  <title>Bridal Makeup Artist in Pune | Premium Makeup</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
@@ -760,7 +760,7 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
   <!-- center: merged header content -->
   <div class="header-center">
     <h1>MS Bridal Makeup • Pune</h1>
-    <p>Premium Bridal Makeup By Monalisa Salwadi </p>
+    <p>Premium Makeup By Monalisa Salwadi </p>
     <p>पुण्यातील प्रीमियम ब्रायडल मेकअप</p>
     <p>Bridal | Engagement | Reception</p>
     <p>Wedding Makeup Packages</p>
@@ -866,7 +866,7 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
     <div class="footer-content">
 
       <p class="line" data-service-key="premium_bridal_pack" style="display:none">
-        <span class="item highlighted-item">Premium Bridal Pack</span>
+        <span class="item highlighted-item">Premium Pack</span>
         <span class="dots"></span>
         <span class="price">₹17,999</span>
       </p>
@@ -877,7 +877,7 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
       </p>
       </p>
       <p class="line" data-service-key="basic_bridal_pack" style="display:none;margin-top:12px;">
-        <span class="item highlighted-item">Basic Bridal Pack</span>
+        <span class="item highlighted-item">Basic Pack</span>
         <span class="dots"></span>
         <span class="price">₹15,499</span>
       </p>
@@ -893,19 +893,19 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
       </p>
       </p>
       <p class="line" data-service-key="premium_bridal_makeup" style="display:none">
-        <span class="item highlighted-item">Premium Bridal Makeup</span>
+        <span class="item highlighted-item">Premium Makeup</span>
         <span class="dots"></span>
         <span class="price">₹9,999</span>
       </p>
       </p>
       <p class="line" data-service-key="basic_bridal_makeup" style="display:none">
-        <span class="item highlighted-item">Basic Bridal Makeup</span>
+        <span class="item highlighted-item">Basic Makeup</span>
         <span class="dots"></span>
         <span class="price">₹7,999</span>
       </p>
       </p>
       <p class="line" data-service-key="engagement_makeup" style="display:none">
-        <span class="item highlighted-item">Engagement Makeup</span>
+        <span class="item highlighted-item">Engagement</span>
         <span class="dots"></span>
         <span class="price">₹4,999</span>        
       </p>
@@ -1214,7 +1214,15 @@ document.addEventListener('keydown', function(e) {
     document.querySelectorAll('[data-service-key]').forEach(row=>{
       const service=services.get(row.dataset.serviceKey);
       if(!service){row.style.display='none';return;}
-      const serviceName=row.querySelector('.item');if(serviceName)serviceName.textContent=service.name;
+      const serviceName=row.querySelector('.item');
+      const publicNames={
+        premium_bridal_pack:'Premium Pack',
+        basic_bridal_pack:'Basic Pack',
+        premium_bridal_makeup:'Premium Makeup',
+        basic_bridal_makeup:'Basic Makeup',
+        engagement_makeup:'Engagement'
+      };
+      if(serviceName)serviceName.textContent=publicNames[service.key]||service.name;
       const increased=Number(service.increased_price);
       const finalPrice=Number(service.final_price);
       if(!Number.isFinite(increased)||!Number.isFinite(finalPrice)||finalPrice<5000){row.style.display='none';return;}
