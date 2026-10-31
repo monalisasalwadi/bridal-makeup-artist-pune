@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add("page-loading");</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#000000" />
@@ -645,10 +646,62 @@ footer{
  .calendar-nav-btn { padding:6px 7px; }
 }
 
+
+/* Initial page loading overlay */
+html.page-loading { background: #000; }
+html.page-loading body > :not(#page-loader) {
+  filter: blur(8px);
+  opacity: 0.35;
+  pointer-events: none;
+  user-select: none;
+}
+#page-loader {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000000;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.94);
+  color: var(--gold, #bf902b);
+  font-family: 'Armata', sans-serif;
+  text-align: center;
+}
+html.page-loading #page-loader { display: flex; }
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.loader-content p { margin: 0; font-size: 13px; letter-spacing: .3px; }
+.loader-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(191,144,43,.22);
+  border-top-color: #bf902b;
+  border-radius: 50%;
+  animation: page-loader-spin .85s linear infinite;
+}
+@keyframes page-loader-spin { to { transform: rotate(360deg); } }
+html.page-loading body > :not(#page-loader),
+body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
+@media (prefers-reduced-motion: reduce) {
+  .loader-spinner { animation: none; }
+  html.page-loading body > :not(#page-loader),
+  body > :not(#page-loader) { transition: none; }
+}
+
 </style>
 </head>
 
 <body>
+  <div id="page-loader" role="status" aria-live="polite" aria-label="Loading website">
+    <div class="loader-content">
+      <div class="loader-spinner" aria-hidden="true"></div>
+      <p>Preparing your experience...</p>
+    </div>
+  </div>
   <header>
     
   <!-- left: logo + tagline -->
@@ -1151,5 +1204,87 @@ document.addEventListener('keydown', function(e) {
 })();
 
 </script>
+
+<script>
+/* Wait for the initial page resources, then reveal the website. */
+(function () {
+  const VIDEO_TIMEOUT_MS = 12000;
+
+  function waitForWindowLoad() {
+    if (document.readyState === 'complete') return Promise.resolve();
+    return new Promise(resolve => {
+      window.addEventListener('load', resolve, { once: true });
+    });
+  }
+
+  function waitForImage(img) {
+    if (!img.currentSrc && !img.src) return Promise.resolve();
+    if (img.complete) {
+      return typeof img.decode === 'function'
+        ? img.decode().catch(() => {})
+        : Promise.resolve();
+    }
+    return new Promise(resolve => {
+      const finish = () => {
+        if (typeof img.decode === 'function') {
+          img.decode().catch(() => {}).finally(resolve);
+        } else {
+          resolve();
+        }
+      };
+      img.addEventListener('load', finish, { once: true });
+      img.addEventListener('error', resolve, { once: true });
+    });
+  }
+
+  function waitForVideo(video) {
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      return Promise.resolve();
+    }
+    return new Promise(resolve => {
+      let finished = false;
+      const finish = () => {
+        if (finished) return;
+        finished = true;
+        clearTimeout(timer);
+        video.removeEventListener('loadeddata', finish);
+        video.removeEventListener('error', finish);
+        resolve();
+      };
+      const timer = setTimeout(finish, VIDEO_TIMEOUT_MS);
+      video.addEventListener('loadeddata', finish, { once: true });
+      video.addEventListener('error', finish, { once: true });
+    });
+  }
+
+  async function revealWhenReady() {
+    await waitForWindowLoad();
+
+    if (document.fonts && document.fonts.ready) {
+      await document.fonts.ready.catch(() => {});
+    }
+
+    await Promise.all(Array.from(document.images, waitForImage));
+    await Promise.all(
+      Array.from(document.querySelectorAll('video'), waitForVideo)
+    );
+
+    // Allow two paint frames before hiding the overlay.
+    await new Promise(resolve =>
+      requestAnimationFrame(() => requestAnimationFrame(resolve))
+    );
+
+    document.documentElement.classList.remove('page-loading');
+    const loader = document.getElementById('page-loader');
+    if (loader) loader.setAttribute('aria-hidden', 'true');
+  }
+
+  revealWhenReady().catch(error => {
+    console.warn('Page loading screen fallback:', error);
+    document.documentElement.classList.remove('page-loading');
+  });
+})();
+</script>
+
 </body>
 </html>
