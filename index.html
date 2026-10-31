@@ -660,21 +660,42 @@ html.page-loading body > :not(#page-loader) {
   position: fixed;
   inset: 0;
   z-index: 1000000;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.94);
-  color: var(--gold, #bf902b);
+  background: #000 url('loading/preview.jpeg') center center / cover no-repeat;
+  color: #fff;
   font-family: 'Armata', sans-serif;
   text-align: center;
 }
 html.page-loading #page-loader { display: flex; }
+#page-loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,.28), rgba(0,0,0,.58));
+  z-index: 1;
+}
+#page-loader-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
 .loader-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
+  padding: 20px;
+  text-shadow: 0 2px 10px rgba(0,0,0,.8);
 }
-.loader-content p { margin: 0; font-size: 13px; letter-spacing: .3px; }
+.loader-content p { margin: 0; font-size: 14px; letter-spacing: .4px; }
 .loader-spinner {
   width: 44px;
   height: 44px;
@@ -697,6 +718,18 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
 
 <body>
   <div id="page-loader" role="status" aria-live="polite" aria-label="Loading website">
+    <video
+      id="page-loader-video"
+      autoplay
+      muted
+      playsinline
+      loop
+      preload="auto"
+      poster="loading/preview.jpeg"
+      aria-hidden="true"
+    >
+      <source src="loading/loading-video.mp4" type="video/mp4">
+    </video>
     <div class="loader-content">
       <div class="loader-spinner" aria-hidden="true"></div>
       <p>Preparing your experience...</p>
@@ -1258,6 +1291,17 @@ document.addEventListener('keydown', function(e) {
   }
 
   async function revealWhenReady() {
+    const loadingVideo = document.getElementById('page-loader-video');
+    if (loadingVideo) {
+      // Muted inline playback is generally permitted by mobile and desktop browsers.
+      const playAttempt = loadingVideo.play();
+      if (playAttempt && typeof playAttempt.catch === 'function') {
+        playAttempt.catch(() => {
+          // The preview image remains visible if autoplay is blocked.
+        });
+      }
+    }
+
     await waitForWindowLoad();
 
     if (document.fonts && document.fonts.ready) {
