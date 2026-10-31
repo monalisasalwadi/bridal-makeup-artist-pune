@@ -1,7 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>document.documentElement.classList.add("page-loading");</script>
+  <script>
+  // Show the intro only once per browser tab session.
+  // Refreshing the page will skip the video.
+  (function () {
+    const introKey = "bridalIntroShown";
+    let showIntro = false;
+    try {
+      showIntro = !sessionStorage.getItem(introKey);
+      if (showIntro) sessionStorage.setItem(introKey, "1");
+    } catch (error) {
+      // If session storage is unavailable, fall back to showing the intro.
+      showIntro = true;
+    }
+    window.__showBridalIntro = showIntro;
+    if (showIntro) document.documentElement.classList.add("page-loading");
+  })();
+</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#000000" />
@@ -732,7 +748,6 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
     <div class="loader-content">
       <div class="loader-spinner" aria-hidden="true"></div>
       <p>Preparing your experience...</p>
-      <p>Meanwhile meet the artist...</p>
     </div>
   </div>
   <header>
@@ -1291,6 +1306,12 @@ document.addEventListener('keydown', function(e) {
   }
 
   async function revealWhenReady() {
+    // On refreshes and later page loads in this tab, skip the intro entirely.
+    if (!window.__showBridalIntro) {
+      document.documentElement.classList.remove('page-loading');
+      return;
+    }
+
     const loadingVideo = document.getElementById('page-loader-video');
 
     // Start the loading video immediately. It plays once, so visitors see the
