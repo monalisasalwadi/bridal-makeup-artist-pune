@@ -608,13 +608,24 @@ footer{
   }
 }
 
-/* Phone contact — web/desktop only */
-.btn-contact-web { display:none; }
-@media (min-width:769px) {
- .btn-contact-web { display:inline-flex; align-items:center; gap:6px; padding:10px 16px;
- border-radius:16px; background:#bf902b; color:#fff; font-weight:700; font-size:13px;
- border:none; cursor:pointer; text-decoration:none; white-space:nowrap;
- box-shadow:0 0 12px rgba(191,144,43,.45); }
+/* Contact number — desktop/web only */
+.contact-number-web {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .contact-number-web {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        /* Same look and feel as header buttons */
+        cursor: text;
+        user-select: text;
+        -webkit-user-select: text;
+
+        white-space: nowrap;
+    }
 }
 
 
