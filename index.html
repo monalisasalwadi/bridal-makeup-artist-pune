@@ -472,6 +472,12 @@ footer{
   font-weight:700;
 }
 
+
+.service-description,
+.service-description small {
+  color: #d6d6d6;
+}
+
 .highlighted-item {
   position: relative;
   font-weight: 600;
@@ -747,8 +753,7 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
     </video>
     <div class="loader-content">
       <div class="loader-spinner" aria-hidden="true"></div>
-      <p>Preparing your experience.</p>
-      <p>Meanwhile meet your Artist...</p>
+      <p>Preparing your experience...</p>
     </div>
   </div>
   <header>
@@ -861,8 +866,7 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
 <footer>
   <div class="footer-card">
     <div class="footer-header">
-        Value Bridal Pack
-        <span id="monthly-discount-message" style="display:block; font-size:8px;"></span>
+      Value Bridal Pack <span style="font-size: 8px;"><span id="monthly-discount-message"></span></span>
     </div>
 
     <div class="footer-content">
@@ -872,8 +876,8 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
         <span class="dots"></span>
         <span class="price">₹17,999</span>
       </p>
-      <p><small>Products: High-end, long-wear brands for flawless photos</small></p>
-      <p><small>You will be: Radiant, camera-ready glow - a dreamy bridal finish</small></p>
+      <p class="service-description"><small>Products: High-end, long-wear brands for flawless photos</small></p>
+      <p class="service-description"><small>You will be: Radiant, camera-ready glow - a dreamy bridal finish</small></p>
 
       <hr class="prod-line">
       </p>
@@ -883,8 +887,8 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
         <span class="dots"></span>
         <span class="price">₹15,499</span>
       </p>
-      <p><small>Products: Reliable salon-grade products for lasting wear</small></p>
-      <p><small>You will be: Natural, elegant bridal look - fresh and well-polished</small></p>
+      <p class="service-description"><small>Products: Reliable salon-grade products for lasting wear</small></p>
+      <p class="service-description"><small>You will be: Natural, elegant bridal look - fresh and well-polished</small></p>
   
       </p>
       </p>
@@ -895,13 +899,13 @@ body > :not(#page-loader) { transition: filter 450ms ease, opacity 450ms ease; }
       </p>
       </p>
       <p class="line" data-service-key="premium_bridal_makeup" style="display:none">
-        <span class="item highlighted-item">Premium</span>
+        <span class="item highlighted-item">Premium Makeup</span>
         <span class="dots"></span>
         <span class="price">₹9,999</span>
       </p>
       </p>
       <p class="line" data-service-key="basic_bridal_makeup" style="display:none">
-        <span class="item highlighted-item">Basic</span>
+        <span class="item highlighted-item">Basic Makeup</span>
         <span class="dots"></span>
         <span class="price">₹7,999</span>
       </p>
@@ -1220,8 +1224,8 @@ document.addEventListener('keydown', function(e) {
       const publicNames={
         premium_bridal_pack:'Premium Pack',
         basic_bridal_pack:'Basic Pack',
-        premium_bridal_makeup:'Premium',
-        basic_bridal_makeup:'Basic',
+        premium_bridal_makeup:'Premium Makeup',
+        basic_bridal_makeup:'Basic Makeup',
         engagement_makeup:'Engagement'
       };
       if(serviceName)serviceName.textContent=publicNames[service.key]||service.name;
@@ -1407,7 +1411,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         discountMessage.textContent =
-            `Call now to avail ${month} discount: 10% more!`;
+            ` - Call now to avail ${month} discount: 10% more!`;
     }
 });
 </script>
