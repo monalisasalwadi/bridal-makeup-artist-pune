@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-01T16:39:00+00:00",
+  "updated_at": "2026-11-01T16:59:31+00:00",
   "currency": "INR",
   "month": "November",
   "offer_enabled": false,
@@ -16,7 +16,7 @@
     "August": 20.0,
     "September": 20.0,
     "October": 20.0,
-    "November": 30.0,
+    "November": 20.0,
     "December": 20.0
   },
   "services": [
@@ -26,8 +26,8 @@
       "base_price": 18000,
       "hike_pct": 50.0,
       "increased_price": 27000,
-      "discount_pct": 30.0,
-      "final_price": 18900
+      "discount_pct": 20.0,
+      "final_price": 21600
     },
     {
       "key": "basic_bridal_pack",
@@ -35,8 +35,8 @@
       "base_price": 16000,
       "hike_pct": 50.0,
       "increased_price": 24000,
-      "discount_pct": 30.0,
-      "final_price": 16800
+      "discount_pct": 20.0,
+      "final_price": 19200
     },
     {
       "key": "premium_bridal_makeup",
@@ -44,8 +44,8 @@
       "base_price": 10000,
       "hike_pct": 50.0,
       "increased_price": 15000,
-      "discount_pct": 30.0,
-      "final_price": 10500
+      "discount_pct": 20.0,
+      "final_price": 12000
     },
     {
       "key": "basic_bridal_makeup",
@@ -53,8 +53,8 @@
       "base_price": 8000,
       "hike_pct": 50.0,
       "increased_price": 12000,
-      "discount_pct": 30.0,
-      "final_price": 8400
+      "discount_pct": 20.0,
+      "final_price": 9600
     },
     {
       "key": "engagement_makeup",
@@ -62,8 +62,8 @@
       "base_price": 5000,
       "hike_pct": 50.0,
       "increased_price": 7500,
-      "discount_pct": 30.0,
-      "final_price": 5250
+      "discount_pct": 20.0,
+      "final_price": 6000
     }
   ]
 }
