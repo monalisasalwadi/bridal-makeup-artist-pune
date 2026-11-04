@@ -675,6 +675,8 @@ footer{
 .public-calendar .pc-day { border:1px solid #6e5320; background:#111; color:#bf902b; }
 .public-calendar .pc-day.booked { background:#5a2020; color:#fff; border-color:#9f4545; }
 .public-calendar .pc-day.unavailable { background:#353535; color:#ddd; border-color:#666; }
+.public-calendar .pc-day.booked.partial { background:linear-gradient(to right,#5a2020 0 50%,#111 50% 100%); }
+.public-calendar .pc-day.unavailable.partial { background:linear-gradient(to right,#353535 0 50%,#111 50% 100%); }
 .calendar-legend { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:12px; font-size:11px; }
 .legend-dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:4px; }
 .booked-dot { background:#9f4545; } .unavailable-dot { background:#888; }
@@ -1304,16 +1306,17 @@ document.addEventListener('keydown', function(e) {
     for(let day=1;day<=days;day++){
       const key=cursor.getFullYear()+'-'+String(cursor.getMonth()+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
       const el=document.createElement('div');
-      const savedState=dateStatuses.get(key);
-      const state=(savedState==='booked'||savedState==='unavailable')?savedState:'';
-      el.className='pc-day'+(state?' '+state:'');
+      const savedEntry=dateStatuses.get(key)||{};
+      const state=(savedEntry.status==='booked'||savedEntry.status==='unavailable')?savedEntry.status:'';
+      const duration=savedEntry.duration==='partial'?'partial':'full';
+      el.className='pc-day'+(state?' '+state+(duration==='partial'?' partial':''):'');
       el.textContent=day;
-      if(state) el.title=state==='booked'?'Booked':'Unavailable';
+      if(state) el.title=(state==='booked'?'Booked':'Unavailable')+' - '+(duration==='partial'?'Partial day':'Full day');
       grid.appendChild(el);
     }
   }
   document.getElementById('calendarPrev').addEventListener('click',()=>{cursor.setMonth(cursor.getMonth()-1);draw();});document.getElementById('calendarNext').addEventListener('click',()=>{cursor.setMonth(cursor.getMonth()+1);draw();});
-  fetch('/availability.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Calendar is not published yet.');return r.json();}).then(data=>{dateStatuses=new Map((data.dates||[]).map(d=>[d.date,d.status]));loaded=true;statusEl.textContent='Availability updated '+(data.updated_at?new Date(data.updated_at).toLocaleDateString('en-IN'):'recently')+'. Please confirm availability with us.';draw();}).catch(()=>{statusEl.textContent='Availability could not be loaded. Please contact us to confirm your date.';draw();});
+  fetch('/availability.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Calendar is not published yet.');return r.json();}).then(data=>{dateStatuses=new Map((data.dates||[]).map(d=>[d.date,{status:d.status,duration:d.duration||'full'}]));loaded=true;statusEl.textContent='Availability updated '+(data.updated_at?new Date(data.updated_at).toLocaleDateString('en-IN'):'recently')+'. Please confirm availability with us.';draw();}).catch(()=>{statusEl.textContent='Availability could not be loaded. Please contact us to confirm your date.';draw();});
   draw();
 })();
 
